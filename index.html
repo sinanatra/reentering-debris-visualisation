@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<head>
+    <script src="assets/js/libraries/d3.v5.js"></script>
+    <script src="assets/js/libraries/topojson.v0.min.js"></script>
+    <script src="assets/js/libraries/d3-array.v1.min.js"></script>
+    <script src="assets/js/libraries/d3-geo.v1.min.js"></script>
+    <script src="assets/js/libraries/d3-geo-projection.v2.min.js"></script>
+    <script src="assets/js/libraries/jquery.min.js"></script>
+    <script src="assets/js/map.js"></script>
+    <script src="assets/js/app.js"></script>
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+</head>
+
+<body>
+    <!-- define patterns -->
+    <svg height="5" width="5"> <defs> <pattern id="smalldot" patternUnits="userSpaceOnUse" width="3" height="3" > <image xlink:href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSc1JyBoZWlnaHQ9JzUnPgo8cmVjdCB3aWR0aD0nNScgaGVpZ2h0PSc1JyBmaWxsPScjZmZmJy8+CjxyZWN0IHdpZHRoPScxJyBoZWlnaHQ9JzEnIGZpbGw9JyNjY2MnLz4KPC9zdmc+" x="0" y="0" width="5" height="5"> </image> </pattern> </defs> </svg>
+
+    <section class="mapContent">
+        <div id="map"></div>
+        <div id="legend">
+            <div id="">An interactive visualisation of all the space debris that reentered the atmosphere in the South Pacific Ocean.</div>
+            <div id="">From 1960 until 2019.</div>
+        </div>
+    </section>
+
+</body>
+
+</html>
