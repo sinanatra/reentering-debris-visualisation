@@ -1,0 +1,179 @@
+@import "_fonts.css";
+body {
+    background: #222;
+    font-family: Fk Grotesk;
+    --highlite-color: rgba(138, 43, 226, 1);
+    --highlite-color: rgb(228, 235, 243);
+    --second-color: rgb(75, 210, 96);
+    --second-color: rgb(68, 83, 76);
+    --second-highlite: rgb(0, 51, 95);
+    --fade-color: blanchedalmond;
+    --fade-color: rgb(170, 176, 182);
+    /* --highlite-color: #5364bf; */
+    color: var(--highlite-color);
+}
+
+#sphere {
+    fill: rgba(138, 43, 226, .9);
+    fill: rgba(228, 235, 243, .9);
+}
+
+.graticule {
+    fill: none;
+    stroke-width: 0.15px;
+    stroke-dasharray: 2, 2;
+    stroke: #222;
+}
+
+.mainMarker {
+    fill: var(--second-color);
+    fill: var(--second-highlite);
+}
+
+.mappa {
+    fill: var(--highlite-color);
+    stroke: var(--fade-color);
+    stroke-width: 0.03;
+}
+
+.marineBorders {
+    stroke-width: 0.1;
+    stroke: black;
+    fill: rgba(255, 235, 205, .1);
+}
+
+.marineLegend {
+    fill: #222;
+    font-size: 2px;
+    /* mix-blend-mode: multiply; */
+}
+
+.spoua {
+    fill: none;
+    stroke: var(--second-highlite);
+    stroke-width: 0.1;
+    font-size: 5px;
+}
+
+.spouaText {
+    fill: var(--second-highlite);
+}
+
+#map {
+    position: fixed;
+    width: 90%;
+}
+
+#svg {
+    width: 85%;
+    height: auto;
+    margin: auto;
+    display: block;
+}
+
+#legend {
+    font-size: .7rem;
+    /* margin: auto; */
+    display: block;
+    width: 400px;
+    /* text-align: center; */
+}
+
+#legend div {
+    display: block;
+    color: var(--fade-color);
+}
+
+#name,
+#launch,
+#reenter,
+#owner {
+    /* margin-bottom: 2vh; */
+    font-size: 1.4em;
+}
+
+.legend {
+    fill: var(--fade-color);
+    cy: 100px;
+}
+
+#maplegend {
+    font-size: 1.2em;
+    fill: rgb(150, 71, 225);
+}
+
+#launch:before {
+    content: "Launch date: ";
+    color: var(--fade-color);
+}
+
+#reenter:before {
+    content: "Decay date: ";
+    color: var(--fade-color);
+}
+
+#owner:before {
+    content: "Ownership: ";
+    color: var(--fade-color);
+}
+
+.markerSatellite,
+.markerDebris,
+.textMarkers {
+    fill: var(--second-color);
+    opacity: 1;
+    font-size: 5px;
+    vertical-align: baseline;
+}
+
+.markerDebris {
+    fill: var(--second-highlite);
+    fill: var(--second-color);
+}
+
+.lineMarkers {
+    stroke-width: .3px;
+    stroke: var(--second-color);
+}
+
+.disappearLine {
+    stroke: var(--fade-color);
+    stroke-width: .1px;
+    opacity: 0;
+    -webkit-transition: stroke-width 12000ms, opacity 20s;
+    transition: stroke-width 12000ms, opacity 20s;
+}
+
+.disappearMarker,
+.disappearText {
+    fill: var(--fade-color);
+}
+
+.disappearMarker {
+    r: 1px;
+    opacity: 0;
+    -webkit-transition: r 2000ms, opacity 20s;
+    transition: r 2000ms, opacity 20s;
+}
+
+.disappearText {
+    opacity: 0;
+    font-size: 2px;
+    -webkit-transition: opacity 20s, font-size 2000ms;
+    transition: opacity 20s, font-size 2000ms;
+}
+
+.reenteringPaths {
+    fill: none;
+    stroke-width: .5px;
+    stroke: var(--second-color);
+}
+
+.disappearPaths {
+    stroke: var(--second-color);
+    stroke-width: .1px;
+    opacity: 0;
+    fill: none;
+    -webkit-transition: stroke-width 12000ms, opacity 20s;
+    transition: stroke-width 12000ms, opacity 20s;
+}

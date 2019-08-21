@@ -1,0 +1,1 @@
+{"type":"Topology","arcs":[[[0,100],[100,0],[0,-100],[-100,0],[0,100]]],"transform":{"scale":[0.902371770844115,0.31050630225395504],"translate":[-175.06830328159938,-60.030352593217174]},"objects":{"spoua":{"type":"GeometryCollection","geometries":[{"arcs":[[0]],"type":"Polygon"}]}}}
