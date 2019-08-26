@@ -165,13 +165,15 @@ body {
 
 .reenteringPaths {
     fill: none;
-    stroke-width: .5px;
+    stroke-width: .1px;
+    stroke-dasharray: 1, 1;
     stroke: var(--second-color);
 }
 
 .disappearPaths {
     stroke: var(--second-color);
     stroke-width: .1px;
+    stroke-dasharray: 1, 1;
     opacity: 0;
     fill: none;
     -webkit-transition: stroke-width 12000ms, opacity 20s;

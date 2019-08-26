@@ -9,17 +9,20 @@ var projection = d3.geoAzimuthalEquidistant() //geoOrthographic //geoAzimuthalEq
     .rotate([123, 48]) // actual point nemo
     .scale(150)
     .precision(.1)
-    .clipAngle(80);
+    .clipAngle(80)
+
 
 async function loadMap() {
+    var width = window.innerWidth,
+        height = window.innerHeight;
 
     var svg = d3.select("#map")
         .append("div")
         .attr("id", "svg")
         .append("svg")
         .attr("width", "100%")
-        .attr("height", "100%")
-        .attr("viewBox", "0 0 940 600");
+        .attr("height", height)
+        .attr("viewBox", "0 0 840 500");
 
     var path = d3.geoPath()
         .projection(projection)
