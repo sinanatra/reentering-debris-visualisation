@@ -25,12 +25,23 @@ $(document).ready(async function() {
 
     console.log("Cleaned TLE Database, now containing: ", cleanedData.length, "elements")
 
+    // Normalise the array
+    var min = d3.min(cleanedData, d => d.rcs);
+    var max = d3.max(cleanedData, d => parseFloat(d.rcs));
+
+    console.log("Minimum value is: ", min, "Maximum value is: ", max)
+    var scale = d3.scaleLinear().domain([min, max]).range([0, 100]);
+
     function parseData() {
         var parseElement = cleanedData[currentElement];
         var previousElement = cleanedData[currentElement - 1];
-        mapMarkers(parseElement);
+
+        mapMarkers(parseElement, scale);
+
+        // Check if the date matches with the ones in the cleaned_notice.tsv and then map the polygons
         try {
             if (parseElement.satellite_decay != previousElement.satellite_decay) {
+
                 for (i in reenteringPaths) {
                     try {
                         // Select only the year and month
@@ -41,6 +52,7 @@ $(document).ready(async function() {
                         }
                     } catch {}
                 }
+
             }
         } catch {}
         currentElement++;

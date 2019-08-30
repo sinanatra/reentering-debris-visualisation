@@ -125,49 +125,26 @@ async function loadMap() {
         .attr("d", path)
 }
 
-async function mapMarkers(element) {
+async function mapMarkers(element, scale) {
 
     var g = d3.select("g");
 
     g.append("circle")
         .attr("cx", projection([element.lon, element.lat])[0] - 1)
         .attr("cy", projection([element.lon, element.lat])[1] - 1)
-        .attr("class", function() {
-            if (element.satellite_name.includes("DEB")) {
-                return "markerDebris markers"
-            } else {
-                return "markerSatellite markers";
-            }
-        })
+        .attr("class", d => (element.satellite_name.includes("DEB")) ? "markerDebris markers" : "markerSatellite markers")
         .attr("stroke", "none")
-        .attr('r', function(d) {
-            if (element.rcs <= 1) {
-                return "1px";
-            } else {
-                return element.rcs / 30 + "px";
-            }
-        });
+        .attr('r', d => (scale(element.rcs) <= 1) ? "1px" : scale(element.rcs) + "px")
 
     g.append("text")
         .attr("x", projection([element.lon, element.lat])[0])
-        .attr('y', function(d) {
-            if (element.rcs <= 1) {
-                return projection([element.lon, element.lat])[1] + 5
-            } else {
-                return projection([element.lon, element.lat])[1]
-            }
-        })
-        .text(function() {
-            if (element.satellite_name.includes("DEB")) {
-                return element.satellite_name.replace("DEB", "DEBRIS")
-            } else {
-                return element.satellite_name
-            }
-        })
-        .attr("class", "textMarkers")
+        .attr('y', projection([element.lon, element.lat])[1])
+        .text(d => (element.satellite_name.includes("DEB")) ? element.satellite_name.replace("DEB", "DEBRIS") : element.satellite_name)
+
+    .attr("class", "textMarkers")
         .attr("text-anchor", "middle")
         // .attr("alignment-baseline", "hanging")
-        .attr("dy", element.rcs / 25 + .2 + "em")
+        .attr('dy', d => scale(element.rcs) + 5 + "px")
 
     // Connect Point with same name in a row
     connectDebris.push(element)
@@ -215,13 +192,8 @@ async function mapMarkers(element) {
         .attr("id", "owner")
         .attr("class", "legend")
         .attr("startOffset", "35%")
-        .text(function() {
-            if (element.satellite_name.includes("DEB")) {
-                return element.satellite_name.replace("DEB", "DEBRIS")
-            } else {
-                return element.satellite_name
-            }
-        })
+        .text(d => (element.satellite_name.includes("DEB")) ? element.satellite_name.replace("DEB", "DEBRIS") : element.satellite_name)
+
 
     g.append("text").append("textPath")
         .attr("dx", 100)
@@ -233,13 +205,8 @@ async function mapMarkers(element) {
         .attr("id", "reenter")
         .attr("class", "legend")
         .attr("startOffset", "30%")
-        .text(function(d) {
-            if (element.ownership.includes("CIS")) {
-                return "URRS";
-            } else {
-                return element.ownership;
-            }
-        });
+        .text(d => (element.ownership.includes("CIS")) ? "URRS" : element.ownership)
+
 
 };
 
