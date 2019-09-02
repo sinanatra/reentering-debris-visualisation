@@ -29,12 +29,12 @@ body {
 .mappa {
     fill: var(--highlite-color);
     stroke: var(--second-highlite);
-    stroke-width: 0.03;
+    stroke-width: 0.02;
 }
 
 .marineBorders {
     stroke-width: 0.1;
-    opacity: .3;
+    opacity: .5;
     stroke: black;
     fill: rgba(255, 235, 205, .1);
 }
