@@ -7,7 +7,7 @@ body {
     --second-highlite: rgb(0, 51, 95);
     --fade-color: rgb(170, 176, 182);
     --first-fluo: orangered;
-    --second-fluo: rgb(90, 140, 50);
+    --second-fluo: blueviolet;
     color: var(--highlite-color);
 }
 
