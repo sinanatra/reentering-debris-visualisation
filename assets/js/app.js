@@ -1,4 +1,4 @@
-var radius = 7000;
+var radius = 8000;
 
 $(document).ready(async function() {
     await loadMap()
@@ -30,51 +30,74 @@ $(document).ready(async function() {
     var max = d3.max(cleanedData, d => parseFloat(d.rcs));
 
     console.log("Minimum value is: ", min, "Maximum value is: ", max)
-    var scale = d3.scaleLinear().domain([min, max]).range([0, 100]);
+    var scale = d3.scaleLinear().domain([min, max]).range([0.5, 50]); // 50px is the max size
 
-    function parseData() {
+    cleanedData.reverse()
+
+    var previousElement = cleanedData[currentElement - 1];
+
+    // If the previous line is the same parse the tsv immediately, else wait
+    function parseData(prec) {
+
         var parseElement = cleanedData[currentElement];
-        var previousElement = cleanedData[currentElement - 1];
+        const currentSatelliteName = cleanedData[currentElement].satellite_decay;
 
-        mapMarkers(parseElement, scale);
+        setTimeout(function() {
+                parseData(currentSatelliteName);
+                mapMarkers(parseElement, scale);
+                currentElement++
+                try {
+                    if (parseElement.satellite_decay != prec) {
 
-        // Check if the date matches with the ones in the cleaned_notice.tsv and then map the polygons
-        try {
-            if (parseElement.satellite_decay != previousElement.satellite_decay) {
-
-                for (i in reenteringPaths) {
-                    try {
-                        // Select only the year and month
-                        var monthYear1 = reenteringPaths[i].time.slice(0, 7);
-                        var monthYear2 = parseElement.satellite_decay.slice(0, 7);
-                        if (monthYear1.includes(monthYear2)) {
-                            mapPaths(reenteringPaths[i]);
+                        for (i in reenteringPaths) {
+                            try {
+                                // Select only the year and month
+                                var monthYear1 = reenteringPaths[i].time.slice(0, 7);
+                                var monthYear2 = parseElement.satellite_decay.slice(0, 7);
+                                if (monthYear1.includes(monthYear2)) {
+                                    mapPaths(reenteringPaths[i]);
+                                }
+                            } catch {}
                         }
-                    } catch {}
-                }
 
-            }
-        } catch {}
-        currentElement++;
-    }
+                    }
+                } catch {}
+            },
+            currentSatelliteName === prec ? 200 : 3000);
+        // currentSatelliteName === prec ? 0.01 : 0.01);
 
-    setInterval(function() { parseData(); }, 500);
+    };
+
+    parseData(previousElement);
+
+
+
+
 
     // fade previous markers away
     setInterval(function() {
-        d3.selectAll(".markers")
-            .attr("class", "disappearMarker")
+        d3.selectAll(".markerSatellite ")
+            .attr("class", "disappearSatellite")
 
-        d3.selectAll(".textMarkers")
-            .attr("class", "disappearText")
+        d3.selectAll(".markerDebris ")
+            .attr("class", "disappearDebris")
 
-        d3.selectAll(".lineMarkers")
-            .attr("class", "disappearLine")
+        d3.selectAll(".textSatellite")
+            .attr("class", "disappearTextSatellite")
+
+        d3.selectAll(".textDebris")
+            .attr("class", "disappearTextDebris")
+
+        d3.selectAll(".lineDebris")
+            .attr("class", "disappearLineDebris")
+
+        d3.selectAll(".lineSatellite")
+            .attr("class", "disappearLineSatellite")
 
         d3.selectAll(".reenteringPaths")
             .attr("class", "disappearPaths")
 
-    }, 2000);
+    }, 3000);
 });
 
 function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {

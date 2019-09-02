@@ -30,6 +30,8 @@ async function loadMap() {
     var graticule = d3.geoGraticule()
         .step([0, 10]);
 
+
+
     svg.append("defs").append("path")
         .datum({ type: "Sphere" })
         .attr("id", "sphere")
@@ -39,12 +41,26 @@ async function loadMap() {
         .attr("class", "stroke")
         .attr("xlink:href", "#sphere");
 
+    // Icositetragon
+    // var icositetragon = await d3.json("assets/json/icositetragon.json");
+
+    // svg.append("defs").append("path")
+    //     .data(topojson.object(icositetragon, icositetragon.objects.icositetragon)
+    //         .geometries)
+    //     .attr("d", path)
+    //     .attr('stroke', 'red')
+    //     .attr('fill', 'red')
+    //     .attr('stroke-width', '10px')
+    //     .attr("id", "sphere")
+
+
 
     var topology = await d3.json("assets/json/world-50m.json");
     var marineBorders = await d3.json("assets/json/EEZ_land_v2_201410.json");
     var longhurst = await d3.json("assets/json/longhurst_v4_2010.json");
     var spoua = await d3.json("assets/json/spoua.json");
-    var point_nemo_area = await d3.json("assets/json/point_nemo_area.json");
+    // var point_nemo_area = await d3.json("assets/json/point_nemo_area.json");
+    var icositetragon = await d3.json("assets/json/icositetragon.json");
 
     var g = svg.append("g");
 
@@ -71,8 +87,6 @@ async function loadMap() {
         .text(d => d.properties.ProvDescr)
         .call(wrap, 30);
 
-
-
     // marineBorders
     g.selectAll("path")
         .data(topojson.object(marineBorders, marineBorders.objects.EEZ_land_v2_201410)
@@ -83,6 +97,9 @@ async function loadMap() {
         .attr('class', 'marineBorders')
         .style("fill", "url(#smalldot)")
         .style("mix-blend-mode", "multiply")
+
+
+
 
     // Spoua Area
     g.append("path")
@@ -134,14 +151,14 @@ async function mapMarkers(element, scale) {
         .attr("cy", projection([element.lon, element.lat])[1] - 1)
         .attr("class", d => (element.satellite_name.includes("DEB")) ? "markerDebris markers" : "markerSatellite markers")
         .attr("stroke", "none")
-        .attr('r', d => (scale(element.rcs) <= 1) ? "1px" : scale(element.rcs) + "px")
+        // .attr('r', d => (scale(element.rcs) <= 1) ? "1px" : scale(element.rcs) + "px")
+        .attr('r', d => scale(element.rcs) + "px")
 
     g.append("text")
         .attr("x", projection([element.lon, element.lat])[0])
         .attr('y', projection([element.lon, element.lat])[1])
         .text(d => (element.satellite_name.includes("DEB")) ? element.satellite_name.replace("DEB", "DEBRIS") : element.satellite_name)
-
-    .attr("class", "textMarkers")
+        .attr("class", d => (element.satellite_name.includes("DEB")) ? "textDebris" : "textSatellite")
         .attr("text-anchor", "middle")
         // .attr("alignment-baseline", "hanging")
         .attr('dy', d => scale(element.rcs) + 5 + "px")
@@ -157,7 +174,9 @@ async function mapMarkers(element, scale) {
                 .attr("y1", projection([element.lon, element.lat])[1] - 1)
                 .attr("x2", projection([connectDebris[l - 2].lon, connectDebris[l - 2].lat])[0] - 1)
                 .attr("y2", projection([connectDebris[l - 2].lon, connectDebris[l - 2].lat])[1] - 1)
-                .attr("class", "lineMarkers")
+                // .attr("class", "lineMarkers")
+                .attr("class", d => (element.satellite_name.includes("DEB")) ? "lineDebris" : "lineSatellite")
+
 
         }
     } catch {
@@ -227,6 +246,19 @@ async function mapPaths(element) {
         })
         .attr("d", path)
         .attr('class', 'reenteringPaths')
+        .attr('id', 'reenteringPaths')
+
+    g.append("path").append("textPath")
+        .attr("dx", 100)
+        .attr("dy", 100)
+        .attr("x", 100)
+        .attr("y", 100)
+        .attr("xlink:href", "#reenteringPaths")
+        .attr("class", "tinyLegend")
+        .attr("startOffset", "0%")
+        .text("hello there")
+        .attr('font-size', '5px')
+
 };
 
 
