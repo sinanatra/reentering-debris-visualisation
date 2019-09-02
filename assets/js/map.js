@@ -5,12 +5,10 @@ var nemoLon = -123;
 var nemoLat = -48;
 
 var projection = d3.geoAzimuthalEquidistant() //geoOrthographic //geoAzimuthalEquidistant
-    .rotate([123, 43]) // 3d model?
-    .rotate([123, 48]) // actual point nemo
+    .rotate([123, 48]) //centered on Point Nemo
     .scale(150)
     .precision(.1)
     .clipAngle(80)
-
 
 async function loadMap() {
     var width = window.innerWidth,
@@ -22,7 +20,7 @@ async function loadMap() {
         .append("svg")
         .attr("width", "100%")
         .attr("height", height)
-        .attr("viewBox", "0 0 840 500");
+        .attr("viewBox", "0 0 840 500")
 
     var path = d3.geoPath()
         .projection(projection)
@@ -54,12 +52,10 @@ async function loadMap() {
     //     .attr("id", "sphere")
 
 
-
     var topology = await d3.json("assets/json/world-50m.json");
     var marineBorders = await d3.json("assets/json/EEZ_land_v2_201410.json");
     var longhurst = await d3.json("assets/json/longhurst_v4_2010.json");
     var spoua = await d3.json("assets/json/spoua.json");
-    // var point_nemo_area = await d3.json("assets/json/point_nemo_area.json");
     var icositetragon = await d3.json("assets/json/icositetragon.json");
 
     var g = svg.append("g");
@@ -160,13 +156,11 @@ async function mapMarkers(element, scale) {
         .text(d => (element.satellite_name.includes("DEB")) ? element.satellite_name.replace("DEB", "DEBRIS") : element.satellite_name)
         .attr("class", d => (element.satellite_name.includes("DEB")) ? "textDebris" : "textSatellite")
         .attr("text-anchor", "middle")
-        // .attr("alignment-baseline", "hanging")
         .attr('dy', d => scale(element.rcs) + 5 + "px")
 
     // Connect Point with same name in a row
     connectDebris.push(element)
     l = connectDebris.length;
-
     try {
         if (element.satellite_name == connectDebris[l - 2].satellite_name) {
             g.append("line")
@@ -174,10 +168,12 @@ async function mapMarkers(element, scale) {
                 .attr("y1", projection([element.lon, element.lat])[1] - 1)
                 .attr("x2", projection([connectDebris[l - 2].lon, connectDebris[l - 2].lat])[0] - 1)
                 .attr("y2", projection([connectDebris[l - 2].lon, connectDebris[l - 2].lat])[1] - 1)
-                // .attr("class", "lineMarkers")
                 .attr("class", d => (element.satellite_name.includes("DEB")) ? "lineDebris" : "lineSatellite")
 
 
+        } else {
+            // It empties the array
+            connectDebris = []
         }
     } catch {
         console.error();
@@ -190,7 +186,7 @@ async function mapMarkers(element, scale) {
         .attr("dx", 100)
         .attr("dy", 100)
         .attr("x", 100)
-        .attr("cy", 100)
+        .attr("y", 100)
         .attr("text-anchor", "middle")
         .attr("xlink:href", "#sphere")
         .attr("id", "launch")
@@ -235,7 +231,6 @@ async function mapPaths(element) {
     var g = d3.select("g");
     var path = d3.geoPath()
         .projection(projection)
-
 
     g.append("path")
         .datum({

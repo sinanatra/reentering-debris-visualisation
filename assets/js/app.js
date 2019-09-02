@@ -1,9 +1,11 @@
 var radius = 8000;
 
 $(document).ready(async function() {
+    // It loads the Map
     await loadMap()
     var currentElement = 0;
 
+    //  Loading and cleaning the database
     var data = await d3.tsv("assets/data/satellite_reentering_cleaned.tsv")
     console.log("Loading TLE Database containing: ", data.length, "elements")
     var reenteringPaths = await d3.tsv("assets/data/cleaned_notice.tsv");
@@ -11,9 +13,8 @@ $(document).ready(async function() {
 
     var cleanedData = [];
 
-    // selecting only debris in a specific radius
+    // Selecting only debris in a specific radius
     for (i in data) {
-
         var loc1 = { lat: nemoLat, lon: nemoLon };
         var loc2 = { lat: data[i].lat, lon: data[i].lon };
         var n = getDistanceFromLatLonInKm(nemoLat, nemoLon, data[i].lat, data[i].lon)
@@ -28,22 +29,19 @@ $(document).ready(async function() {
     // Normalise the array
     var min = d3.min(cleanedData, d => d.rcs);
     var max = d3.max(cleanedData, d => parseFloat(d.rcs));
-
     console.log("Minimum value is: ", min, "Maximum value is: ", max)
-    var scale = d3.scaleLinear().domain([min, max]).range([0.5, 50]); // 50px is the max size
 
+    // Define a min and max size for the markers
+    var scale = d3.scaleLinear().domain([min, max]).range([0.5, 35]);
     // cleanedData.reverse() // just to test
 
     var previousElement = cleanedData[currentElement - 1];
 
-    // If the previous line is the same parse the tsv immediately, else wait
+    // If the previous line is the same it parses the tsv immediately, else it waits
     function parseData(prec) {
         var parseElement = cleanedData[currentElement];
         const currentSatelliteName = cleanedData[currentElement].satellite_decay;
         setTimeout(function() {
-
-                d3.selectAll(".markerSatellite, .markerDebris, .textSatellite, .textDebris, .lineDebris ,.lineSatellite ,.reenteringPaths")
-                    .remove();
 
                 parseData(currentSatelliteName);
                 mapMarkers(parseElement, scale);
@@ -51,14 +49,13 @@ $(document).ready(async function() {
 
                 if (currentElement == (cleanedData.length - 1)) {
                     currentElement = 0;
-                    // when it restarts it removes all the previous svg elements
+                    // When it restarts it removes all the previous svg elements
                     d3.selectAll(".markerSatellite, .markerDebris, .textSatellite, .textDebris, .lineDebris ,.lineSatellite ,.reenteringPaths")
                         .remove();
-                    console.log("restarting")
+                    console.log("Restarting")
                 }
                 try {
                     if (parseElement.satellite_decay != prec) {
-
                         for (i in reenteringPaths) {
                             try {
                                 // Select only the year and month
@@ -79,10 +76,6 @@ $(document).ready(async function() {
     };
 
     parseData(previousElement);
-
-
-
-
 
     // fade previous markers away
     setInterval(function() {
@@ -106,7 +99,6 @@ $(document).ready(async function() {
 
         d3.selectAll(".reenteringPaths")
             .attr("class", "disappearPaths")
-
     }, 3000);
 });
 
