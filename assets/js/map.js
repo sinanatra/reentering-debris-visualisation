@@ -184,15 +184,13 @@ async function mapMarkers(element, scale) {
     }
 
     // Legend
-
     d3.selectAll("textPath").remove();
-
 
     g.append("text").append("textPath")
         .attr("dx", 100)
         .attr("dy", 100)
         .attr("x", 100)
-        .attr("y", 100)
+        .attr("cy", 100)
         .attr("text-anchor", "middle")
         .attr("xlink:href", "#sphere")
         .attr("id", "launch")

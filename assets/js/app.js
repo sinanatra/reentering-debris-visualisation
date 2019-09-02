@@ -38,38 +38,23 @@ $(document).ready(async function() {
 
     // If the previous line is the same parse the tsv immediately, else wait
     function parseData(prec) {
-
         var parseElement = cleanedData[currentElement];
         const currentSatelliteName = cleanedData[currentElement].satellite_decay;
-
         setTimeout(function() {
+
+                d3.selectAll(".markerSatellite, .markerDebris, .textSatellite, .textDebris, .lineDebris ,.lineSatellite ,.reenteringPaths")
+                    .remove();
+
                 parseData(currentSatelliteName);
                 mapMarkers(parseElement, scale);
                 currentElement++
 
-                if (currentElement == parseElement.length) {
+                if (currentElement == (cleanedData.length - 1)) {
                     currentElement = 0;
-                    d3.selectAll(".markerSatellite ")
+                    // when it restarts it removes all the previous svg elements
+                    d3.selectAll(".markerSatellite, .markerDebris, .textSatellite, .textDebris, .lineDebris ,.lineSatellite ,.reenteringPaths")
                         .remove();
-
-                    d3.selectAll(".markerDebris ")
-                        .remove();
-
-                    d3.selectAll(".textSatellite")
-                        .remove();
-
-                    d3.selectAll(".textDebris")
-                        .remove();
-
-                    d3.selectAll(".lineDebris")
-                        .remove();
-
-                    d3.selectAll(".lineSatellite")
-                        .remove();
-
-                    d3.selectAll(".reenteringPaths")
-                        .remove();
-
+                    console.log("restarting")
                 }
                 try {
                     if (parseElement.satellite_decay != prec) {
@@ -89,7 +74,7 @@ $(document).ready(async function() {
                 } catch {}
             },
             currentSatelliteName === prec ? 200 : 3000);
-        // currentSatelliteName === prec ? 0.01 : 0.01);
+        // currentSatelliteName, 0); // just to test eh!
 
     };
 
