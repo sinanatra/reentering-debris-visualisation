@@ -7,7 +7,7 @@ body {
     --second-highlite: rgb(0, 51, 95);
     --fade-color: rgb(170, 176, 182);
     --first-fluo: orangered;
-    --second-fluo: rgb(75, 210, 96);
+    --second-fluo: rgb(90, 140, 50);
     color: var(--highlite-color);
 }
 
@@ -182,7 +182,7 @@ body {
 
 .reenteringPaths {
     fill: none;
-    fill: rgba(255, 20, 147, .2);
+    fill: rgba(255, 69, 0, .9);
     stroke-width: .1px;
     stroke-dasharray: 1, 1;
     stroke: var(--second-color);
@@ -195,8 +195,7 @@ body {
     stroke-width: .1px;
     stroke-dasharray: 1, 1;
     opacity: .3;
-    fill: none;
-    fill: rgba(255, 20, 147, .2);
+    fill: rgba(255, 69, 0, .9);
     -webkit-transition: stroke-width 12000ms, opacity 10s;
     transition: stroke-width 12000ms, opacity 10s;
 }

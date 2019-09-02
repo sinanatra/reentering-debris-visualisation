@@ -32,7 +32,7 @@ $(document).ready(async function() {
     console.log("Minimum value is: ", min, "Maximum value is: ", max)
     var scale = d3.scaleLinear().domain([min, max]).range([0.5, 50]); // 50px is the max size
 
-    cleanedData.reverse()
+    // cleanedData.reverse() // just to test
 
     var previousElement = cleanedData[currentElement - 1];
 
@@ -46,6 +46,31 @@ $(document).ready(async function() {
                 parseData(currentSatelliteName);
                 mapMarkers(parseElement, scale);
                 currentElement++
+
+                if (currentElement == parseElement.length) {
+                    currentElement = 0;
+                    d3.selectAll(".markerSatellite ")
+                        .remove();
+
+                    d3.selectAll(".markerDebris ")
+                        .remove();
+
+                    d3.selectAll(".textSatellite")
+                        .remove();
+
+                    d3.selectAll(".textDebris")
+                        .remove();
+
+                    d3.selectAll(".lineDebris")
+                        .remove();
+
+                    d3.selectAll(".lineSatellite")
+                        .remove();
+
+                    d3.selectAll(".reenteringPaths")
+                        .remove();
+
+                }
                 try {
                     if (parseElement.satellite_decay != prec) {
 
