@@ -11,8 +11,7 @@ var projection = d3.geoAzimuthalEquidistant() //geoOrthographic //geoAzimuthalEq
     .clipAngle(80)
 
 async function loadMap() {
-    var width = window.innerWidth,
-        height = window.innerHeight;
+    height = window.innerHeight;
 
     var svg = d3.select("#map")
         .append("div")
@@ -29,59 +28,58 @@ async function loadMap() {
         .step([0, 10]);
 
 
+    // svg.append("path")
+    //     .datum(icositetragon)
+    //     .attr("d", path)
+    //     .attr('stroke', 'red')
+    //     .attr('stroke-width', '10px')
+    //     .attr('fill', 'red')
+
+    var icositetragon = await d3.json("assets/json/icositetragon1.geojson");
 
     svg.append("defs").append("path")
         .datum({ type: "Sphere" })
         .attr("id", "sphere")
         .attr("d", path)
+        // .datum(icositetragon)
+        // .attr("d", path)
 
-    // svg.append("defs").append("polygon")
-    //     .attr("points", "302.03 0 231.75 0 163.88 18.19 103.02 53.33 53.33 103.02 18.19 163.88 0 231.75 0 302.03 18.19 369.91 53.33 430.77 103.02 480.46 163.88 515.59 231.75 533.78 302.03 533.78 369.91 515.59 430.77 480.46 480.46 430.77 515.59 369.91 533.78 302.03 533.78 231.75 515.59 163.88 480.46 103.02 430.77 53.33 369.91 18.19 302.03 0")
-    //     .attr("d", path)
-    //     .attr("id", "sphere")
-    //     // .attr("class", "asd")
-    //     .attr("width", "100%")
-    //     .attr("height", height)
-    //     .attr("viewBox", "0 0 840 500")
 
     svg.append("use")
         .attr("class", "stroke")
         .attr("xlink:href", "#sphere");
 
 
-
-    var topology = await d3.json("assets/json/world-50m.json");
+    var world = await d3.json("assets/json/world-10m.geojson");
     var marineBorders = await d3.json("assets/json/EEZ_land_v2_201410.json");
     var longhurst = await d3.json("assets/json/longhurst_v4_2010.json");
-    var navarea = await d3.json("assets/json/navarea.geojson");
-
+    var navarea = await d3.json("assets/json/navarea.json");
     var spoua = await d3.json("assets/json/spoua.json");
-    var icositetragon = await d3.json("assets/json/icositetragon.json");
 
     var maps = svg.append("g")
     var g = svg.append("g");
 
-    // longhurst Area
-    maps.selectAll("path")
-        .data(topojson.object(longhurst, longhurst.objects.longhurst_v4_2010)
+    // Navearea
+    maps.selectAll("navarea")
+        .data(topojson.object(navarea, navarea.objects.navarea)
             .geometries)
         .enter()
         .append("path")
         .attr("d", path)
-        .attr('class', 'mappa')
-        .attr('id', 'mappa')
+        .attr('class', 'navarea')
 
-    console.log(navarea)
-        // // navareona
+    // text labels
     maps.selectAll("navarea")
-        // g.append("path")
-        //     .datum(navarea)
-        //     // .data(topojson.object(navarea, navarea.objects.navarea)
-        //     //     .geometries)
-        //     .attr("d", path)
-        //     .attr('class', 'mappa')
-        //     .attr('id', 'mappa')
-        //     .attr("fill", "none")
+        .data(topojson.object(navarea, navarea.objects.navarea)
+            .geometries)
+        .enter()
+        .append("text")
+        .attr("class", "navareaText")
+        .attr("text-anchor", "middle")
+        .attr("dx", 0)
+        .attr("transform", function(d) { try { return "translate(" + path.centroid(d) + ") "; } catch { console.error(); } })
+        .text(d => d.properties.Name)
+        .call(wrap, 30);
 
 
     // text labels
@@ -107,7 +105,6 @@ async function loadMap() {
         .attr('class', 'marineBorders')
         .style("fill", "url(#smalldot)")
         .style("mix-blend-mode", "multiply")
-
 
     // Spoua Area
     maps.append("path")
@@ -145,10 +142,19 @@ async function loadMap() {
         .attr('d', d3.symbol().type(d3.symbols[1]).size(4))
         .attr("class", "mainMarker")
 
+    // Countries
+    maps.append("path")
+        .datum(world)
+        .attr("d", path)
+        .attr('class', 'mappa')
+        .attr('id', 'mappa')
+
+    //Graticule
     maps.append("path")
         .datum(graticule)
         .attr("class", "graticule")
         .attr("d", path)
+
 }
 
 async function mapMarkers(element, scale) {
@@ -248,6 +254,7 @@ async function mapPaths(element) {
         .attr("startOffset", "0%")
         .text("hello there")
         .attr('font-size', '5px')
+
 };
 
 
