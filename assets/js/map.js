@@ -35,34 +35,45 @@ async function loadMap() {
         .attr("id", "sphere")
         .attr("d", path)
 
+    // svg.append("defs").append("polygon")
+    //     .attr("points", "302.03 0 231.75 0 163.88 18.19 103.02 53.33 53.33 103.02 18.19 163.88 0 231.75 0 302.03 18.19 369.91 53.33 430.77 103.02 480.46 163.88 515.59 231.75 533.78 302.03 533.78 369.91 515.59 430.77 480.46 480.46 430.77 515.59 369.91 533.78 302.03 533.78 231.75 515.59 163.88 480.46 103.02 430.77 53.33 369.91 18.19 302.03 0")
+    //     .attr("d", path)
+    //     .attr("id", "sphere")
+    //     // .attr("class", "asd")
+    //     .attr("width", "100%")
+    //     .attr("height", height)
+    //     .attr("viewBox", "0 0 840 500")
+
     svg.append("use")
         .attr("class", "stroke")
         .attr("xlink:href", "#sphere");
 
-    // Icositetragon
-    // var icositetragon = await d3.json("assets/json/icositetragon.json");
-
-    // svg.append("defs").append("path")
-    //     .data(topojson.object(icositetragon, icositetragon.objects.icositetragon)
-    //         .geometries)
-    //     .attr("d", path)
-    //     .attr('stroke', 'red')
-    //     .attr('fill', 'red')
-    //     .attr('stroke-width', '10px')
-    //     .attr("id", "sphere")
 
 
     var topology = await d3.json("assets/json/world-50m.json");
     var marineBorders = await d3.json("assets/json/EEZ_land_v2_201410.json");
     var longhurst = await d3.json("assets/json/longhurst_v4_2010.json");
+    var navarea = await d3.json("assets/json/navareas.json");
+
     var spoua = await d3.json("assets/json/spoua.json");
     var icositetragon = await d3.json("assets/json/icositetragon.json");
 
+    var maps = svg.append("g")
     var g = svg.append("g");
 
     // longhurst Area
-    g.selectAll("path")
-        .data(topojson.object(longhurst, longhurst.objects.longhurst_v4_2010)
+    // maps.selectAll("path")
+    //     .data(topojson.object(longhurst, longhurst.objects.longhurst_v4_2010)
+    //         .geometries)
+    //     .enter()
+    //     .append("path")
+    //     .attr("d", path)
+    //     .attr('class', 'mappa')
+    //     .attr('id', 'mappa')
+
+    // navareona
+    maps.selectAll("path")
+        .data(topojson.object(navarea, navarea.objects.navarea)
             .geometries)
         .enter()
         .append("path")
@@ -70,8 +81,9 @@ async function loadMap() {
         .attr('class', 'mappa')
         .attr('id', 'mappa')
 
+
     // text labels
-    g.selectAll("longhurstText")
+    maps.selectAll("longhurstText")
         .data(topojson.object(longhurst, longhurst.objects.longhurst_v4_2010)
             .geometries)
         .enter()
@@ -84,7 +96,7 @@ async function loadMap() {
         .call(wrap, 30);
 
     // marineBorders
-    g.selectAll("path")
+    maps.selectAll("path")
         .data(topojson.object(marineBorders, marineBorders.objects.EEZ_land_v2_201410)
             .geometries)
         .enter()
@@ -95,16 +107,14 @@ async function loadMap() {
         .style("mix-blend-mode", "multiply")
 
 
-
-
     // Spoua Area
-    g.append("path")
+    maps.append("path")
         .data(topojson.object(spoua, spoua.objects.spoua)
             .geometries)
         .attr("d", path)
         .attr('class', 'spoua')
 
-    g.append("text")
+    maps.append("text")
         .attr("x", projection([-165, -50])[0] + 5)
         .attr("y", projection([-194, -50])[1] + 1.5)
         .text("SPOUA area")
@@ -114,17 +124,18 @@ async function loadMap() {
     // Point Nemo and Island
     var pointNemo = await d3.csv("./assets/json/point_nemo_area.csv")
 
-    g.selectAll("pointNemo")
+    maps.selectAll("pointNemo")
         .data(pointNemo)
         .enter()
         .append("text")
         .attr("x", d => projection([d.lon, d.lat])[0] + 3.5)
         .attr("y", d => projection([d.lon, d.lat])[1] + 1.5)
         .text(d => d.name)
-        .attr("font-size", "5px")
+        // .attr("font-size", "5px")
+        .attr("font-size", d => (d.name.includes("Nemo")) ? "8px" : "5px")
         .attr("class", "mainMarker")
 
-    g.selectAll("pointNemo")
+    maps.selectAll("pointNemo")
         .data(pointNemo)
         .enter()
         .append('path')
@@ -132,7 +143,7 @@ async function loadMap() {
         .attr('d', d3.symbol().type(d3.symbols[1]).size(4))
         .attr("class", "mainMarker")
 
-    g.append("path")
+    maps.append("path")
         .datum(graticule)
         .attr("class", "graticule")
         .attr("d", path)
@@ -183,45 +194,33 @@ async function mapMarkers(element, scale) {
     d3.selectAll("textPath").remove();
 
     g.append("text").append("textPath")
-        .attr("dx", 100)
-        .attr("dy", 100)
-        .attr("x", 100)
-        .attr("y", 100)
         .attr("text-anchor", "middle")
         .attr("xlink:href", "#sphere")
         .attr("id", "launch")
         .attr("class", "legend")
         .attr("startOffset", "20%")
         .text(element.satellite_decay)
-
+        .attr("dominant-baseline", "text-top")
 
     g.append("text").append("textPath")
-        .attr("dx", 100)
-        .attr("dy", 100)
-        .attr("x", 100)
-        .attr("y", 100)
         .attr("text-anchor", "start")
         .attr("xlink:href", "#sphere")
         .attr("id", "owner")
         .attr("class", "legend")
         .attr("startOffset", "35%")
         .text(d => (element.satellite_name.includes("DEB")) ? element.satellite_name.replace("DEB", "DEBRIS") : element.satellite_name)
-
+        .attr("dominant-baseline", "text-top")
 
     g.append("text").append("textPath")
-        .attr("dx", 100)
-        .attr("dy", 100)
-        .attr("x", 100)
-        .attr("y", 100)
         .attr("text-anchor", "middle")
         .attr("xlink:href", "#sphere")
         .attr("id", "reenter")
         .attr("class", "legend")
         .attr("startOffset", "30%")
         .text(d => (element.ownership.includes("CIS")) ? "URRS" : element.ownership)
-
-
+        .attr("dominant-baseline", "text-top")
 };
+
 
 
 async function mapPaths(element) {
@@ -242,17 +241,13 @@ async function mapPaths(element) {
         .attr('id', 'reenteringPaths')
 
     g.append("path").append("textPath")
-        .attr("dx", 100)
-        .attr("dy", 100)
-        .attr("x", 100)
-        .attr("y", 100)
         .attr("xlink:href", "#reenteringPaths")
         .attr("class", "tinyLegend")
         .attr("startOffset", "0%")
         .text("hello there")
         .attr('font-size', '5px')
-
 };
+
 
 
 function wrap(text, width) {

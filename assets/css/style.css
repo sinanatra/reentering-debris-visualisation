@@ -2,6 +2,7 @@
 body {
     background: #222;
     font-family: Fk Grotesk;
+    font-family: Fk Roman;
     --highlite-color: rgb(228, 235, 243);
     --second-color: rgb(68, 83, 76);
     --second-highlite: rgb(0, 51, 95);
@@ -22,10 +23,6 @@ body {
     stroke: #222;
 }
 
-.mainMarker {
-    fill: var(--second-highlite);
-}
-
 .mappa {
     fill: var(--highlite-color);
     stroke: var(--second-highlite);
@@ -37,6 +34,11 @@ body {
     opacity: .5;
     stroke: black;
     fill: rgba(255, 235, 205, .1);
+}
+
+.mainMarker {
+    fill: var(--second-highlite);
+    fill: var(--second-color);
 }
 
 .marineLegend {
@@ -198,4 +200,12 @@ body {
     fill: rgba(255, 69, 0, .9);
     -webkit-transition: stroke-width 12000ms, opacity 10s;
     transition: stroke-width 12000ms, opacity 10s;
+}
+
+.asd {
+    width: 40%;
+    margin: 31.5%;
+    display: block;
+    margin-top: 18vh;
+    fill: rgba(228, 235, 243, 1);
 }
