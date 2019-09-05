@@ -53,7 +53,7 @@ async function loadMap() {
     var topology = await d3.json("assets/json/world-50m.json");
     var marineBorders = await d3.json("assets/json/EEZ_land_v2_201410.json");
     var longhurst = await d3.json("assets/json/longhurst_v4_2010.json");
-    var navarea = await d3.json("assets/json/navareas.json");
+    var navarea = await d3.json("assets/json/navarea.geojson");
 
     var spoua = await d3.json("assets/json/spoua.json");
     var icositetragon = await d3.json("assets/json/icositetragon.json");
@@ -62,24 +62,26 @@ async function loadMap() {
     var g = svg.append("g");
 
     // longhurst Area
-    // maps.selectAll("path")
-    //     .data(topojson.object(longhurst, longhurst.objects.longhurst_v4_2010)
-    //         .geometries)
-    //     .enter()
-    //     .append("path")
-    //     .attr("d", path)
-    //     .attr('class', 'mappa')
-    //     .attr('id', 'mappa')
-
-    // navareona
     maps.selectAll("path")
-        .data(topojson.object(navarea, navarea.objects.navarea)
+        .data(topojson.object(longhurst, longhurst.objects.longhurst_v4_2010)
             .geometries)
         .enter()
         .append("path")
         .attr("d", path)
         .attr('class', 'mappa')
         .attr('id', 'mappa')
+
+    console.log(navarea)
+        // // navareona
+    maps.selectAll("navarea")
+        // g.append("path")
+        //     .datum(navarea)
+        //     // .data(topojson.object(navarea, navarea.objects.navarea)
+        //     //     .geometries)
+        //     .attr("d", path)
+        //     .attr('class', 'mappa')
+        //     .attr('id', 'mappa')
+        //     .attr("fill", "none")
 
 
     // text labels
