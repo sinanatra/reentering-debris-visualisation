@@ -35,7 +35,7 @@ async function loadMap() {
     //     .attr('stroke-width', '10px')
     //     .attr('fill', 'red')
 
-    var icositetragon = await d3.json("assets/json/icositetragon1.geojson");
+    // var icositetragon = await d3.json("assets/json/icositetragon.geojson");
 
     svg.append("defs").append("path")
         .datum({ type: "Sphere" })
@@ -166,7 +166,6 @@ async function mapMarkers(element, scale) {
         .attr("cy", projection([element.lon, element.lat])[1] - 1)
         .attr("class", d => (element.satellite_name.includes("DEB")) ? "markerDebris markers" : "markerSatellite markers")
         .attr("stroke", "none")
-        // .attr('r', d => (scale(element.rcs) <= 1) ? "1px" : scale(element.rcs) + "px")
         .attr('r', d => scale(element.rcs) + "px")
 
     g.append("text")
@@ -188,8 +187,6 @@ async function mapMarkers(element, scale) {
                 .attr("x2", projection([connectDebris[l - 2].lon, connectDebris[l - 2].lat])[0] - 1)
                 .attr("y2", projection([connectDebris[l - 2].lon, connectDebris[l - 2].lat])[1] - 1)
                 .attr("class", d => (element.satellite_name.includes("DEB")) ? "lineDebris" : "lineSatellite")
-
-
         } else {
             // It empties the array
             connectDebris = []
@@ -209,6 +206,7 @@ async function mapMarkers(element, scale) {
         .attr("startOffset", "20%")
         .text(element.satellite_decay)
         .attr("dominant-baseline", "text-top")
+        .attr("dy", -100)
 
     g.append("text").append("textPath")
         .attr("text-anchor", "start")
@@ -218,6 +216,7 @@ async function mapMarkers(element, scale) {
         .attr("startOffset", "35%")
         .text(d => (element.satellite_name.includes("DEB")) ? element.satellite_name.replace("DEB", "DEBRIS") : element.satellite_name)
         .attr("dominant-baseline", "text-top")
+        .attr("dy", -100)
 
     g.append("text").append("textPath")
         .attr("text-anchor", "middle")
@@ -227,6 +226,7 @@ async function mapMarkers(element, scale) {
         .attr("startOffset", "30%")
         .text(d => (element.ownership.includes("CIS")) ? "URRS" : element.ownership)
         .attr("dominant-baseline", "text-top")
+        .attr("dy", -100)
 };
 
 
