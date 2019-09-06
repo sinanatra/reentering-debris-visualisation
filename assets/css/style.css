@@ -82,7 +82,7 @@ body {
 }
 
 #legend {
-    font-size: .7rem;
+    font-size: .6rem;
     display: block;
     width: 400px;
 }
@@ -95,13 +95,19 @@ body {
 #name,
 #launch,
 #reenter,
-#owner {
-    font-size: 1.2em;
+#owner,
+.smallLegend {
+    font-size: 1em;
     font-family: Fk Grotesk;
     fill: var(--second-color);
 }
 
-.legend {
+.smallLegend {
+    font-size: .6em;
+}
+
+.legend,
+.smallLegend {
     fill: var(--fade-color);
 }
 

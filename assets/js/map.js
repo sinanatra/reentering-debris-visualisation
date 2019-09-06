@@ -42,7 +42,7 @@ async function loadMap() {
     var longhurst = await d3.json("assets/json/longhurst_v4_2010.json");
     var navarea = await d3.json("assets/json/navarea.json");
     var spoua = await d3.json("assets/json/spoua.json");
-    var icositetragon = await d3.json("assets/json/icositetragon.geojson");
+    var icositetragon = await d3.json("assets/json/icositetragon.json");
 
     var maps = svg.append("g")
     var g = svg.append("g");
@@ -127,7 +127,7 @@ async function loadMap() {
         .enter()
         .append('path')
         .attr('transform', function(d, i) { return 'translate(' + (projection([d.lon, d.lat])[0]) + ',' + (projection([d.lon, d.lat])[1]) + ')'; })
-        .attr('d', d3.symbol().type(d3.symbols[1]).size(4))
+        .attr('d', d3.symbol().type(d3.symbols[3]).size(4))
         .attr("class", "mainMarker")
 
     // Countries
@@ -204,10 +204,10 @@ async function mapMarkers(element, scale) {
     g.append("text")
         .attr("dy", -8)
         .append("textPath")
-        .attr("text-anchor", "start")
+        .attr("text-anchor", "end")
         .attr("id", "owner")
         .attr("class", "legend")
-        .attr("startOffset", "45%")
+        .attr("startOffset", "58%")
         .attr("xlink:href", "#sphere")
         .text(element.satellite_decay)
         .attr("dominant-baseline", "text-top")
@@ -219,7 +219,7 @@ async function mapMarkers(element, scale) {
         .attr("id", "owner")
         .attr("class", "legend")
         .attr("xlink:href", "#sphere")
-        .attr("startOffset", "58%")
+        .attr("startOffset", "60%")
         .text(d => (element.ownership.includes("CIS")) ? "URRS" : element.ownership)
         .attr("dominant-baseline", "text-top")
 
@@ -235,48 +235,40 @@ async function mapMarkers(element, scale) {
         .attr("dominant-baseline", "text-top")
 
     // Map Legend
-    //     g.append("text")
-    //         .attr("dy", -8)
-    //         .append("textPath")
-    //         .attr("id", "owner")
-    //         .attr("class", "legend")
-    //         .attr("startOffset", "0%")
-    //         .attr("xlink:href", "#sphere")
-    //         .text("CIAONE")
-    //         .attr("dominant-baseline", "text-top")
+    g.append("text")
+        .attr("dy", -8)
 
-    // };
+    .append("textPath")
+        .attr("startOffset", "15%")
+        .attr("xlink:href", "#sphere")
+        .attr("class", "smallLegend")
+        .text("🄲 SPOUA AREA, 🄲 MARINE PROTECTED AREAS, 🄲 NAVIGATIONAL AREAS, 🄲 DEBRIS REENTERING")
 
+};
 
 
 
-    async function mapPaths(element) {
-        var coordinates = element.coord
-        var coordinates = JSON.parse(coordinates)
 
-        var g = d3.select("g");
-        var path = d3.geoPath()
-            .projection(projection)
+async function mapPaths(element) {
+    var coordinates = element.coord
+    var coordinates = JSON.parse(coordinates)
 
-        g.append("path")
-            .datum({
-                type: "LineString",
-                coordinates: coordinates
-            })
-            .attr("d", path)
-            .attr('class', 'reenteringPaths')
-            .attr('id', 'reenteringPaths')
+    var g = d3.select("g");
+    var path = d3.geoPath()
+        .projection(projection)
 
-        g.append("path").append("textPath")
-            .attr("xlink:href", "#reenteringPaths")
-            .attr("class", "tinyLegend")
-            .attr("startOffset", "0%")
-            .text("hello there")
-            .attr('font-size', '5px')
+    g.append("path")
+        .datum({
+            type: "LineString",
+            coordinates: coordinates
+        })
+        .attr("d", path)
+        .attr('class', 'reenteringPaths')
+        .attr('id', 'reenteringPaths')
 
-    };
+};
 
-}
+
 
 function wrap(text, width) {
     text.each(function() {
