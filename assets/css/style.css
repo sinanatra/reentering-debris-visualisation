@@ -96,14 +96,13 @@ body {
 #launch,
 #reenter,
 #owner {
-    font-size: 1.4em;
+    font-size: 1.2em;
     font-family: Fk Grotesk;
     fill: var(--second-color);
 }
 
 .legend {
     fill: var(--fade-color);
-    cy: 100px;
 }
 
 #maplegend {

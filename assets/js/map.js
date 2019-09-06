@@ -8,7 +8,7 @@ var projection = d3.geoAzimuthalEquidistant() //geoOrthographic //geoAzimuthalEq
     .rotate([123, 48]) //centered on Point Nemo
     .scale(150)
     .precision(.1)
-    .clipAngle(80)
+    .clipAngle(90)
 
 async function loadMap() {
     height = window.innerHeight;
@@ -27,34 +27,22 @@ async function loadMap() {
     var graticule = d3.geoGraticule()
         .step([0, 10]);
 
-
-    // svg.append("path")
-    //     .datum(icositetragon)
-    //     .attr("d", path)
-    //     .attr('stroke', 'red')
-    //     .attr('stroke-width', '10px')
-    //     .attr('fill', 'red')
-
-    // var icositetragon = await d3.json("assets/json/icositetragon.geojson");
-
     svg.append("defs").append("path")
         .datum({ type: "Sphere" })
         .attr("id", "sphere")
         .attr("d", path)
-        // .datum(icositetragon)
-        // .attr("d", path)
 
 
     svg.append("use")
         .attr("class", "stroke")
         .attr("xlink:href", "#sphere");
 
-
     var world = await d3.json("assets/json/world-10m.geojson");
     var marineBorders = await d3.json("assets/json/EEZ_land_v2_201410.json");
     var longhurst = await d3.json("assets/json/longhurst_v4_2010.json");
     var navarea = await d3.json("assets/json/navarea.json");
     var spoua = await d3.json("assets/json/spoua.json");
+    var icositetragon = await d3.json("assets/json/icositetragon.geojson");
 
     var maps = svg.append("g")
     var g = svg.append("g");
@@ -155,6 +143,21 @@ async function loadMap() {
         .attr("class", "graticule")
         .attr("d", path)
 
+    // svg.append("path")
+    //     .datum(icositetragon)
+    //     .attr("d", path)
+    //     .attr('fill', '#222')
+
+    // maps.selectAll("icositetragon")
+    //     .data(topojson.object(icositetragon, icositetragon.objects.icositetragon)
+    //         .geometries)
+    //     .enter()
+    //     .append("path")
+    //     .attr("d", path)
+    //     .attr('fill', '#222')
+    //     .attr("stroke-width", "5px")
+    //     .attr("stroke", "none")
+
 }
 
 async function mapMarkers(element, scale) {
@@ -195,69 +198,85 @@ async function mapMarkers(element, scale) {
         console.error();
     }
 
-    // Legend
+    // Satellites Legend
     d3.selectAll("textPath").remove();
 
-    g.append("text").append("textPath")
-        .attr("text-anchor", "middle")
-        .attr("xlink:href", "#sphere")
-        .attr("id", "launch")
-        .attr("class", "legend")
-        .attr("startOffset", "20%")
-        .text(element.satellite_decay)
-        .attr("dominant-baseline", "text-top")
-        .attr("dy", -100)
-
-    g.append("text").append("textPath")
+    g.append("text")
+        .attr("dy", -8)
+        .append("textPath")
         .attr("text-anchor", "start")
-        .attr("xlink:href", "#sphere")
         .attr("id", "owner")
         .attr("class", "legend")
-        .attr("startOffset", "35%")
-        .text(d => (element.satellite_name.includes("DEB")) ? element.satellite_name.replace("DEB", "DEBRIS") : element.satellite_name)
-        .attr("dominant-baseline", "text-top")
-        .attr("dy", -100)
-
-    g.append("text").append("textPath")
-        .attr("text-anchor", "middle")
+        .attr("startOffset", "45%")
         .attr("xlink:href", "#sphere")
-        .attr("id", "reenter")
+        .text(element.satellite_decay)
+        .attr("dominant-baseline", "text-top")
+
+    g.append("text")
+        .attr("dy", -8)
+        .append("textPath")
+        .attr("text-anchor", "middle")
+        .attr("id", "owner")
         .attr("class", "legend")
-        .attr("startOffset", "30%")
+        .attr("xlink:href", "#sphere")
+        .attr("startOffset", "58%")
         .text(d => (element.ownership.includes("CIS")) ? "URRS" : element.ownership)
         .attr("dominant-baseline", "text-top")
-        .attr("dy", -100)
-};
+
+    g.append("text")
+        .attr("dy", -8)
+        .append("textPath")
+        .attr("text-anchor", "start")
+        .attr("id", "owner")
+        .attr("class", "legend")
+        .attr("startOffset", "62%")
+        .attr("xlink:href", "#sphere")
+        .text(d => (element.satellite_name.includes("DEB")) ? element.satellite_name.replace("DEB", "DEBRIS") : element.satellite_name)
+        .attr("dominant-baseline", "text-top")
+
+    // Map Legend
+    //     g.append("text")
+    //         .attr("dy", -8)
+    //         .append("textPath")
+    //         .attr("id", "owner")
+    //         .attr("class", "legend")
+    //         .attr("startOffset", "0%")
+    //         .attr("xlink:href", "#sphere")
+    //         .text("CIAONE")
+    //         .attr("dominant-baseline", "text-top")
+
+    // };
 
 
 
-async function mapPaths(element) {
-    var coordinates = element.coord
-    var coordinates = JSON.parse(coordinates)
 
-    var g = d3.select("g");
-    var path = d3.geoPath()
-        .projection(projection)
+    async function mapPaths(element) {
+        var coordinates = element.coord
+        var coordinates = JSON.parse(coordinates)
 
-    g.append("path")
-        .datum({
-            type: "LineString",
-            coordinates: coordinates
-        })
-        .attr("d", path)
-        .attr('class', 'reenteringPaths')
-        .attr('id', 'reenteringPaths')
+        var g = d3.select("g");
+        var path = d3.geoPath()
+            .projection(projection)
 
-    g.append("path").append("textPath")
-        .attr("xlink:href", "#reenteringPaths")
-        .attr("class", "tinyLegend")
-        .attr("startOffset", "0%")
-        .text("hello there")
-        .attr('font-size', '5px')
+        g.append("path")
+            .datum({
+                type: "LineString",
+                coordinates: coordinates
+            })
+            .attr("d", path)
+            .attr('class', 'reenteringPaths')
+            .attr('id', 'reenteringPaths')
 
-};
+        g.append("path").append("textPath")
+            .attr("xlink:href", "#reenteringPaths")
+            .attr("class", "tinyLegend")
+            .attr("startOffset", "0%")
+            .text("hello there")
+            .attr('font-size', '5px')
 
+    };
 
+}
 
 function wrap(text, width) {
     text.each(function() {
