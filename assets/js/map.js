@@ -11,7 +11,7 @@ var projection = d3.geoAzimuthalEquidistant() //geoOrthographic //geoAzimuthalEq
     .clipAngle(90)
 
 async function loadMap() {
-    height = window.innerHeight;
+    height = window.innerHeight / 1.01;
 
     var svg = d3.select("#map")
         .append("div")
@@ -37,6 +37,8 @@ async function loadMap() {
         .attr("class", "stroke")
         .attr("xlink:href", "#sphere");
 
+
+    // Loading geojson and topojsons
     var world = await d3.json("assets/json/world-10m.geojson");
     var marineBorders = await d3.json("assets/json/EEZ_land_v2_201410.json");
     var longhurst = await d3.json("assets/json/longhurst_v4_2010.json");
@@ -83,16 +85,31 @@ async function loadMap() {
         .text(d => d.properties.ProvDescr)
         .call(wrap, 30);
 
+
+    //  Defining patterns
+
+
+    var t = textures.lines()
+        .orientation("vertical", "horizontal")
+        .size(2)
+        .shapeRendering("crispEdges")
+        .strokeWidth(.4)
+        .stroke("var(--second-fluo)")
+
+    svg.call(t);
+
+
     // marineBorders
-    maps.selectAll("path")
+    maps.selectAll("marinePath")
         .data(topojson.object(marineBorders, marineBorders.objects.EEZ_land_v2_201410)
             .geometries)
         .enter()
         .append("path")
         .attr("d", path)
         .attr('class', 'marineBorders')
-        .style("fill", "url(#smalldot)")
-        .style("mix-blend-mode", "multiply")
+        .style("fill", t.url());
+
+
 
     // Spoua Area
     maps.append("path")
@@ -158,6 +175,72 @@ async function loadMap() {
     //     .attr("stroke-width", "5px")
     //     .attr("stroke", "none")
 
+
+    // Map Legend
+    g.append("text")
+        .attr("dy", -8)
+        .attr("class", "smallLegend spoua")
+        .append("textPath")
+        .attr("startOffset", "5%")
+        .attr("xlink:href", "#sphere")
+        .text("▢")
+
+    g.append("text")
+        .attr("dy", -8)
+        .attr("class", "smallLegend")
+        .append("textPath")
+        .attr("startOffset", "6%")
+        .attr("xlink:href", "#sphere")
+        .text("SPOUA AREA")
+
+    g.append("text")
+        .attr("dy", -8)
+        .attr("class", "smallLegend marineBordersLegend")
+        .append("textPath")
+        .attr("startOffset", "11%")
+        .attr("xlink:href", "#sphere")
+        .text("▦")
+
+    g.append("text")
+        .attr("dy", -8)
+        .attr("class", "smallLegend")
+        .append("textPath")
+        .attr("startOffset", "12%")
+        .attr("xlink:href", "#sphere")
+        .text("MARINE PROTECTED AREAS")
+
+    g.append("text")
+        .attr("dy", -8)
+        .attr("class", "smallLegend navareaLegend")
+        .append("textPath")
+        .attr("startOffset", "22%")
+        .attr("xlink:href", "#sphere")
+        .text("▢")
+
+    g.append("text")
+        .attr("dy", -8)
+        .attr("class", "smallLegend")
+        .append("textPath")
+        .attr("startOffset", "23%")
+        .attr("xlink:href", "#sphere")
+        .text("NAVIGATIONAL AREAS")
+
+    g.append("text")
+        .attr("dy", -8)
+        .attr("class", "smallLegend markerSatelliteLegend")
+        .append("textPath")
+        .attr("startOffset", "31%")
+        .attr("xlink:href", "#sphere")
+        .text("◯")
+
+    g.append("text")
+        .attr("dy", -8)
+        .attr("class", "smallLegend")
+        .append("textPath")
+        .attr("startOffset", "32%")
+        .attr("xlink:href", "#sphere")
+        .text("DEBRIS REENTERING")
+
 }
 
 async function mapMarkers(element, scale) {
@@ -199,7 +282,7 @@ async function mapMarkers(element, scale) {
     }
 
     // Satellites Legend
-    d3.selectAll("textPath").remove();
+    d3.selectAll(".legend").remove();
 
     g.append("text")
         .attr("dy", -8)
@@ -233,16 +316,6 @@ async function mapMarkers(element, scale) {
         .attr("xlink:href", "#sphere")
         .text(d => (element.satellite_name.includes("DEB")) ? element.satellite_name.replace("DEB", "DEBRIS") : element.satellite_name)
         .attr("dominant-baseline", "text-top")
-
-    // Map Legend
-    g.append("text")
-        .attr("dy", -8)
-
-    .append("textPath")
-        .attr("startOffset", "15%")
-        .attr("xlink:href", "#sphere")
-        .attr("class", "smallLegend")
-        .text("🄲 SPOUA AREA, 🄲 MARINE PROTECTED AREAS, 🄲 NAVIGATIONAL AREAS, 🄲 DEBRIS REENTERING")
 
 };
 

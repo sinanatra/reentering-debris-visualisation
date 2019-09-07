@@ -70,7 +70,7 @@ $(document).ready(async function() {
                     }
                 } catch {}
             },
-            currentSatelliteName === prec ? 200 : 3000);
+            currentSatelliteName === prec ? 300 : 3000);
         // currentSatelliteName, 0); // just to test eh!
 
     };

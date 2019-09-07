@@ -37,6 +37,14 @@ body {
     fill: none;
 }
 
+.navareaLegend {
+    stroke-width: 1;
+    stroke-dasharray: 16, 20;
+    stroke-dashoffset: 10px;
+    stroke: var(--second-fluo);
+    fill: none !important;
+}
+
 .navareaText {
     fill: #222;
     font-size: 5px;
@@ -46,7 +54,11 @@ body {
     stroke-width: .15;
     opacity: .5;
     stroke: var(--second-fluo);
-    fill: rgba(255, 235, 205, .1);
+    fill: var(--second-fluo);
+}
+
+.marineBordersLegend {
+    fill: var(--second-fluo) !important;
 }
 
 .mainMarker {
@@ -82,9 +94,9 @@ body {
 }
 
 #legend {
-    font-size: .6rem;
+    font-size: 1.2rem;
     display: block;
-    width: 400px;
+    width: 380px;
 }
 
 #legend div {
@@ -104,6 +116,10 @@ body {
 
 .smallLegend {
     font-size: .6em;
+    /* -webkit-transform: matrix(-1, 0, 0, 1, 0, 0);
+    -moz-transform: matrix(-1, 0, 0, 1, 0, 0);
+    -o-transform: matrix(-1, 0, 0, 1, 0, 0);
+    transform: matrix(-1, 0, 0, 1, 0, 0); */
 }
 
 .legend,
@@ -139,6 +155,10 @@ body {
     opacity: 1;
     font-size: 5px;
     vertical-align: baseline;
+}
+
+.markerSatelliteLegend {
+    fill: var(--first-fluo);
 }
 
 .markerDebris,
@@ -198,10 +218,9 @@ body {
 .disappearTextDebris,
 .disappearTextSatellite {
     opacity: 0;
-    font-size: 0px;
-    /* -webkit-transition: opacity 20s, font-size 2000ms;
-    transition: opacity 20s, font-size 2000ms;
-     */
+    font-size: 5px;
+    -webkit-transition: opacity 20s;
+    transition: opacity 20s;
 }
 
 .reenteringPaths {
