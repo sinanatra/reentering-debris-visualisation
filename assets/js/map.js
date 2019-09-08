@@ -32,11 +32,27 @@ async function loadMap() {
         .attr("id", "sphere")
         .attr("d", path)
 
-
     svg.append("use")
         .attr("class", "stroke")
         .attr("xlink:href", "#sphere");
 
+    //  Defining patterns
+    var marineTexture = textures.lines()
+        .orientation("vertical", "horizontal")
+        .size(4)
+        .shapeRendering("crispEdges")
+        .strokeWidth(.25)
+        .stroke("var(--second-fluo)")
+
+    var spouaTexture = textures.circles()
+        .lighter()
+        .size(4)
+        .radius(.25)
+        .stroke("var(--second-fluo)")
+        .fill("var(--second-fluo)")
+
+    svg.call(marineTexture);
+    svg.call(spouaTexture);
 
     // Loading geojson and topojsons
     var world = await d3.json("assets/json/world-10m.geojson");
@@ -85,19 +101,12 @@ async function loadMap() {
         .text(d => d.properties.ProvDescr)
         .call(wrap, 30);
 
-
-    //  Defining patterns
-
-
-    var t = textures.lines()
-        .orientation("vertical", "horizontal")
-        .size(2)
-        .shapeRendering("crispEdges")
-        .strokeWidth(.4)
-        .stroke("var(--second-fluo)")
-
-    svg.call(t);
-
+    // Countries
+    maps.append("path")
+        .datum(world)
+        .attr("d", path)
+        .attr('class', 'mappa')
+        .attr('id', 'mappa')
 
     // marineBorders
     maps.selectAll("marinePath")
@@ -107,9 +116,7 @@ async function loadMap() {
         .append("path")
         .attr("d", path)
         .attr('class', 'marineBorders')
-        .style("fill", t.url());
-
-
+        .style("fill", marineTexture.url());
 
     // Spoua Area
     maps.append("path")
@@ -117,6 +124,7 @@ async function loadMap() {
             .geometries)
         .attr("d", path)
         .attr('class', 'spoua')
+        .style("fill", spouaTexture.url());
 
     maps.append("text")
         .attr("x", projection([-165, -50])[0] + 5)
@@ -147,13 +155,6 @@ async function loadMap() {
         .attr('d', d3.symbol().type(d3.symbols[3]).size(4))
         .attr("class", "mainMarker")
 
-    // Countries
-    maps.append("path")
-        .datum(world)
-        .attr("d", path)
-        .attr('class', 'mappa')
-        .attr('id', 'mappa')
-
     //Graticule
     maps.append("path")
         .datum(graticule)
@@ -179,11 +180,15 @@ async function loadMap() {
     // Map Legend
     g.append("text")
         .attr("dy", -8)
-        .attr("class", "smallLegend spoua")
+        .attr("class", "smallLegend")
         .append("textPath")
         .attr("startOffset", "5%")
         .attr("xlink:href", "#sphere")
-        .text("▢")
+        .text("⬤")
+        .style("fill", spouaTexture.url())
+        .attr("stroke-width", ".4")
+        .attr("stroke", "var(--second-fluo)")
+
 
     g.append("text")
         .attr("dy", -8)
@@ -195,11 +200,14 @@ async function loadMap() {
 
     g.append("text")
         .attr("dy", -8)
-        .attr("class", "smallLegend marineBordersLegend")
+        .attr("class", "smallLegend")
         .append("textPath")
         .attr("startOffset", "11%")
         .attr("xlink:href", "#sphere")
-        .text("▦")
+        .text("⬤")
+        .style("fill", marineTexture.url())
+        .attr("stroke-width", ".4")
+        .attr("stroke", "var(--second-fluo)")
 
     g.append("text")
         .attr("dy", -8)
@@ -215,7 +223,9 @@ async function loadMap() {
         .append("textPath")
         .attr("startOffset", "22%")
         .attr("xlink:href", "#sphere")
-        .text("▢")
+        .text("⬤")
+        // .attr("font-size", "8px") // i'm fixing it here because i'm lazy
+
 
     g.append("text")
         .attr("dy", -8)
@@ -231,7 +241,7 @@ async function loadMap() {
         .append("textPath")
         .attr("startOffset", "31%")
         .attr("xlink:href", "#sphere")
-        .text("◯")
+        .text("⬤")
 
     g.append("text")
         .attr("dy", -8)
@@ -261,6 +271,7 @@ async function mapMarkers(element, scale) {
         .attr("class", d => (element.satellite_name.includes("DEB")) ? "textDebris" : "textSatellite")
         .attr("text-anchor", "middle")
         .attr('dy', d => scale(element.rcs) + 5 + "px")
+
 
     // Connect Point with same name in a row
     connectDebris.push(element)
@@ -327,8 +338,20 @@ async function mapPaths(element) {
     var coordinates = JSON.parse(coordinates)
 
     var g = d3.select("g");
+    var svg = d3.select("svg");
+
     var path = d3.geoPath()
         .projection(projection)
+
+    var reenteringPaths = textures.lines()
+        .orientation("horizontal")
+        .strokeWidth(.25)
+        .size(4)
+        .shapeRendering("crispEdges")
+        // .background("var(--second-color)");
+
+    svg.call(reenteringPaths);
+
 
     g.append("path")
         .datum({
@@ -338,6 +361,8 @@ async function mapPaths(element) {
         .attr("d", path)
         .attr('class', 'reenteringPaths')
         .attr('id', 'reenteringPaths')
+        .style("fill", reenteringPaths.url());
+
 
 };
 

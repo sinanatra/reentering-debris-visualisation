@@ -42,7 +42,6 @@ $(document).ready(async function() {
         var parseElement = cleanedData[currentElement];
         const currentSatelliteName = cleanedData[currentElement].satellite_decay;
         setTimeout(function() {
-
                 parseData(currentSatelliteName);
                 mapMarkers(parseElement, scale);
                 currentElement++
@@ -69,13 +68,19 @@ $(document).ready(async function() {
 
                     }
                 } catch {}
+
             },
-            currentSatelliteName === prec ? 300 : 3000);
-        // currentSatelliteName, 0); // just to test eh!
+            currentSatelliteName === prec ? 100 : 1000);
 
     };
 
     parseData(previousElement);
+
+
+    // for (i in cleanedData.length) {
+    //     console.log(i)
+    //         // mapMarkers(cleanedData[i], scale);
+    // }
 
     // fade previous markers away
     setInterval(function() {
