@@ -40,19 +40,20 @@ $(document).ready(async function() {
     // If the previous line is the same it parses the tsv immediately, else it waits
     function parseData(prec) {
         var parseElement = cleanedData[currentElement];
-        const currentSatelliteName = cleanedData[currentElement].satellite_decay;
-        setTimeout(function() {
-                parseData(currentSatelliteName);
-                mapMarkers(parseElement, scale);
-                currentElement++
+        const currentSatelliteDecay = cleanedData[currentElement].satellite_decay;
+        const currentSatelliteName = cleanedData[currentElement].satellite_name;
+        previousElement = cleanedData[currentElement - 1];
 
+        setTimeout(function() {
+
+                // When it restarts it removes all the previous svg elements
                 if (currentElement == (cleanedData.length - 1)) {
                     currentElement = 0;
-                    // When it restarts it removes all the previous svg elements
                     d3.selectAll(".markerSatellite, .markerDebris, .textSatellite, .textDebris, .lineDebris ,.lineSatellite ,.reenteringPaths")
                         .remove();
-                    console.log("Restarting")
+                    console.log("Restarting the loop")
                 }
+                // Add NAVSAT paths if they match the year and month of the satellite reentry
                 try {
                     if (parseElement.satellite_decay != prec) {
                         for (i in reenteringPaths) {
@@ -67,10 +68,38 @@ $(document).ready(async function() {
                         }
 
                     }
+                    // Remove the highlite to the previous element
+                    if (previousElement.satellite_name != currentSatelliteName) {
+
+                        d3.selectAll(".markerSatellite ")
+                            .attr("class", "disappearSatellite")
+
+                        d3.selectAll(".markerDebris ")
+                            .attr("class", "disappearDebris")
+
+                        d3.selectAll(".textSatellite")
+                            .attr("class", "disappearTextSatellite")
+
+                        d3.selectAll(".textDebris")
+                            .attr("class", "disappearTextDebris")
+
+                        d3.selectAll(".lineDebris")
+                            .attr("class", "disappearLineDebris")
+
+                        d3.selectAll(".lineSatellite")
+                            .attr("class", "disappearLineSatellite")
+
+                        d3.selectAll(".reenteringPaths")
+                            .attr("class", "disappearPaths")
+                    }
                 } catch {}
 
+                parseData(currentSatelliteDecay);
+                mapMarkers(parseElement, scale);
+                currentElement++
+
             },
-            currentSatelliteName === prec ? 100 : 1000);
+            currentSatelliteDecay === prec ? 100 : 5000);
 
     };
 
@@ -82,29 +111,6 @@ $(document).ready(async function() {
     //         // mapMarkers(cleanedData[i], scale);
     // }
 
-    // fade previous markers away
-    setInterval(function() {
-        d3.selectAll(".markerSatellite ")
-            .attr("class", "disappearSatellite")
-
-        d3.selectAll(".markerDebris ")
-            .attr("class", "disappearDebris")
-
-        d3.selectAll(".textSatellite")
-            .attr("class", "disappearTextSatellite")
-
-        d3.selectAll(".textDebris")
-            .attr("class", "disappearTextDebris")
-
-        d3.selectAll(".lineDebris")
-            .attr("class", "disappearLineDebris")
-
-        d3.selectAll(".lineSatellite")
-            .attr("class", "disappearLineSatellite")
-
-        d3.selectAll(".reenteringPaths")
-            .attr("class", "disappearPaths")
-    }, 3000);
 });
 
 function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
