@@ -59,7 +59,7 @@ async function loadMap() {
     var world = await d3.json("assets/json/world-10m.json");
     var marineBorders = await d3.json("assets/json/EEZ_land_v2_201410.json");
     var longhurst = await d3.json("assets/json/longhurst_v4_2010.json");
-    var navarea = await d3.json("assets/json/navarea.json");
+    var navarea = await d3.json("assets/json/navarea_edit.json");
     var spoua = await d3.json("assets/json/spoua.json");
     var icositetragon = await d3.json("assets/json/icositetragon.json");
 
@@ -81,13 +81,27 @@ async function loadMap() {
             .geometries)
         .enter()
         .append("text")
+                .attr("dy", 10)
+
         .attr("class", "navareaText")
         .attr("text-anchor", "middle")
         .attr("dx", 0)
-        .attr("transform", function(d) { try { return "translate(" + path.centroid(d) + ") "; } catch { console.error(); } })
+        .attr("transform", (d) => { try { return "translate(" + path.centroid(d) + ") "; } catch { console.error(); } })
         .text(d => d.properties.Name)
         .call(wrap, 30);
 
+    // text labels
+    maps.selectAll("navarea")
+        .data(topojson.object(navarea, navarea.objects.navarea)
+            .geometries)
+        .enter()
+        .append("text")
+         .attr("dy", -50)
+        .attr("class", "navareaText")
+        .attr("text-anchor", "middle")
+        .attr("transform", (d) => { try { return "translate(" + path.centroid(d) + ") "; } catch { console.error(); } })
+        .text(d => d.properties.Area)
+        .call(wrap, 30);
 
     // text labels
     maps.selectAll("longhurstText")
@@ -98,7 +112,7 @@ async function loadMap() {
         .attr("class", "marineLegend")
         .attr("text-anchor", "middle")
         .attr("dx", 0)
-        .attr("transform", function(d) { try { return "translate(" + path.centroid(d) + ") "; } catch { console.error(); } })
+        .attr("transform", (d) => { try { return "translate(" + path.centroid(d) + ") "; } catch { console.error(); } })
         .text(d => d.properties.ProvDescr)
         .call(wrap, 30);
 
