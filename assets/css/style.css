@@ -12,8 +12,7 @@ body {
 }
 
 #sphere {
-    fill: rgba(228, 235, 243, 1);
-    fill: rgb(228, 235, 243);
+    fill: var(--fade-color);
 }
 
 .graticule {
@@ -24,9 +23,10 @@ body {
 }
 
 .mappa {
+    stroke: var(--second-color);
     fill: var(--fade-color);
     /* stroke: var(--second-highlite); */
-    stroke-width: 0.01;
+    stroke-width: 0.25;
 }
 
 .navarea {

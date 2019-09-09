@@ -3,7 +3,7 @@ var connectDebris = []
 // Point Nemo coordinates
 var nemoLon = -123;
 var nemoLat = -48;
-var patternSize = 8;
+var patternSize = 6;
 
 var projection = d3.geoAzimuthalEquidistant() //geoOrthographic //geoAzimuthalEquidistant
     .rotate([123, 48]) //centered on Point Nemo
@@ -56,7 +56,7 @@ async function loadMap() {
     svg.call(spouaTexture);
 
     // Loading geojson and topojsons
-    var world = await d3.json("assets/json/world-10m.geojson");
+    var world = await d3.json("assets/json/world-10m.json");
     var marineBorders = await d3.json("assets/json/EEZ_land_v2_201410.json");
     var longhurst = await d3.json("assets/json/longhurst_v4_2010.json");
     var navarea = await d3.json("assets/json/navarea.json");
@@ -102,12 +102,6 @@ async function loadMap() {
         .text(d => d.properties.ProvDescr)
         .call(wrap, 30);
 
-    // Countries
-    maps.append("path")
-        .datum(world)
-        .attr("d", path)
-        .attr('class', 'mappa')
-        .attr('id', 'mappa')
 
     // marineBorders
     maps.selectAll("marinePath")
@@ -118,6 +112,14 @@ async function loadMap() {
         .attr("d", path)
         .attr('class', 'marineBorders')
         .style("fill", marineTexture.url());
+
+    // Countries
+    maps.append("path")
+        .data(topojson.object(world, world.objects.ne_10m_land)
+            .geometries)
+        .attr("d", path)
+        .attr('class', 'mappa')
+        .attr('id', 'mappa')
 
     // Spoua Area
     maps.append("path")
@@ -225,8 +227,6 @@ async function loadMap() {
         .attr("startOffset", "22%")
         .attr("xlink:href", "#sphere")
         .text("⬤")
-        // .attr("font-size", "8px") // i'm fixing it here because i'm lazy
-
 
     g.append("text")
         .attr("dy", -8)
