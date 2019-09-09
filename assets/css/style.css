@@ -8,8 +8,6 @@ body {
     --second-highlite: rgb(0, 51, 95);
     --fade-color: rgb(170, 176, 182);
     --first-fluo: blueviolet;
-    --second-fluo: orangered;
-    --second-fluo: green;
     color: var(--highlite-color);
 }
 
@@ -32,7 +30,7 @@ body {
 }
 
 .navarea {
-    stroke: var(--second-fluo);
+    stroke: var(--second-color);
     stroke-width: .15;
     stroke-dasharray: 2, 2;
     fill: none;
@@ -40,10 +38,10 @@ body {
 
 .navareaLegend {
     /* stroke: none;
-    fill: var(--second-fluo); */
+    fill: var(--second-color); */
     stroke-width: .5;
     stroke-dasharray: 2, 2;
-    stroke: var(--second-fluo);
+    stroke: var(--second-color);
     fill: none !important;
 }
 
@@ -54,16 +52,16 @@ body {
 
 .marineBorders {
     stroke-width: .15;
-    stroke: var(--second-fluo);
-    fill: var(--second-fluo);
+    stroke: var(--second-color);
+    fill: var(--second-color);
 }
 
 .marineBordersLegend {
-    fill: var(--second-fluo) !important;
+    fill: var(--second-color) !important;
 }
 
 .mainMarker {
-    fill: var(--second-fluo);
+    fill: var(--second-color);
 }
 
 .marineLegend {
@@ -73,13 +71,13 @@ body {
 
 .spoua {
     fill: none;
-    stroke: var(--second-fluo);
+    stroke: var(--second-color);
     stroke-width: 0.1;
     font-size: 5px;
 }
 
 .spouaText {
-    fill: var(--second-fluo);
+    fill: var(--second-color);
 }
 
 #map {
@@ -165,7 +163,7 @@ body {
 
 .markerDebris,
 .textDebris {
-    fill: var(--second-fluo);
+    fill: var(--second-color);
     fill: var(--first-fluo);
     /* fill: red; */
 }
@@ -183,7 +181,7 @@ body {
 
 .lineDebris,
 .disappearLineDebris {
-    stroke: var(--second-fluo);
+    stroke: var(--second-color);
     stroke: var(--first-fluo);
 }
 

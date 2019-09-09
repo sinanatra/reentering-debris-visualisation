@@ -3,6 +3,7 @@ var connectDebris = []
 // Point Nemo coordinates
 var nemoLon = -123;
 var nemoLat = -48;
+var patternSize = 8;
 
 var projection = d3.geoAzimuthalEquidistant() //geoOrthographic //geoAzimuthalEquidistant
     .rotate([123, 48]) //centered on Point Nemo
@@ -39,17 +40,17 @@ async function loadMap() {
     //  Defining patterns
     var marineTexture = textures.lines()
         .orientation("vertical", "horizontal")
-        .size(4)
+        .size(patternSize)
         .shapeRendering("crispEdges")
         .strokeWidth(.25)
-        .stroke("var(--second-fluo)")
+        .stroke("var(--second-color)")
 
     var spouaTexture = textures.circles()
         .lighter()
-        .size(4)
+        .size(patternSize)
         .radius(.25)
-        .stroke("var(--second-fluo)")
-        .fill("var(--second-fluo)")
+        .stroke("var(--second-color)")
+        .fill("var(--second-color)")
 
     svg.call(marineTexture);
     svg.call(spouaTexture);
@@ -152,7 +153,7 @@ async function loadMap() {
         .enter()
         .append('path')
         .attr('transform', function(d, i) { return 'translate(' + (projection([d.lon, d.lat])[0]) + ',' + (projection([d.lon, d.lat])[1]) + ')'; })
-        .attr('d', d3.symbol().type(d3.symbols[3]).size(4))
+        .attr('d', d3.symbol().type(d3.symbols[3]).size(patternSize))
         .attr("class", "mainMarker")
 
     //Graticule
@@ -187,7 +188,7 @@ async function loadMap() {
         .text("⬤")
         .style("fill", spouaTexture.url())
         .attr("stroke-width", ".4")
-        .attr("stroke", "var(--second-fluo)")
+        .attr("stroke", "var(--second-color)")
 
 
     g.append("text")
@@ -207,7 +208,7 @@ async function loadMap() {
         .text("⬤")
         .style("fill", marineTexture.url())
         .attr("stroke-width", ".4")
-        .attr("stroke", "var(--second-fluo)")
+        .attr("stroke", "var(--second-color)")
 
     g.append("text")
         .attr("dy", -8)
@@ -346,7 +347,7 @@ async function mapPaths(element) {
     var reenteringPaths = textures.lines()
         .orientation("horizontal")
         .strokeWidth(.25)
-        .size(4)
+        .size(patternSize)
         .shapeRendering("crispEdges")
         // .background("var(--second-color)");
 
