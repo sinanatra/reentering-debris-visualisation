@@ -43,14 +43,14 @@ async function loadMap() {
         .size(patternSize)
         .shapeRendering("crispEdges")
         .strokeWidth(.25)
-        .stroke("var(--second-color)")
+        .stroke("var(--pattern)")
 
     var spouaTexture = textures.circles()
         .lighter()
         .size(patternSize)
         .radius(.25)
-        .stroke("var(--second-color)")
-        .fill("var(--second-color)")
+        .stroke("var(--pattern)")
+        .fill("var(--pattern)")
 
     svg.call(marineTexture);
     svg.call(spouaTexture);
@@ -188,7 +188,7 @@ async function loadMap() {
         .text("⬤")
         .style("fill", spouaTexture.url())
         .attr("stroke-width", ".4")
-        .attr("stroke", "var(--second-color)")
+        .attr("stroke", "var(--pattern)")
 
 
     g.append("text")
@@ -208,7 +208,7 @@ async function loadMap() {
         .text("⬤")
         .style("fill", marineTexture.url())
         .attr("stroke-width", ".4")
-        .attr("stroke", "var(--second-color)")
+        .attr("stroke", "var(--pattern)")
 
     g.append("text")
         .attr("dy", -8)
@@ -349,7 +349,7 @@ async function mapPaths(element) {
         .strokeWidth(.25)
         .size(patternSize)
         .shapeRendering("crispEdges")
-        // .background("var(--second-color)");
+        // .background("var(--pattern)");
 
     svg.call(reenteringPaths);
 

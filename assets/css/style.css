@@ -7,8 +7,8 @@ body {
     --second-color: rgb(68, 83, 76);
     --second-highlite: rgb(0, 51, 95);
     --fade-color: rgb(170, 176, 182);
-    --first-fluo: blueviolet;
-    color: var(--highlite-color);
+    --fluo-color: blueviolet;
+    --pattern: orangered;
 }
 
 #sphere {
@@ -24,7 +24,7 @@ body {
 }
 
 .mappa {
-    fill: var(--second-color);
+    fill: var(--fade-color);
     /* stroke: var(--second-highlite); */
     stroke-width: 0.01;
 }
@@ -110,7 +110,7 @@ body {
 .smallLegend {
     font-size: 1em;
     font-family: Fk Grotesk;
-    fill: var(--first-fluo);
+    fill: var(--fluo-color);
 }
 
 .smallLegend {
@@ -151,26 +151,26 @@ body {
 .markerDebris,
 .textSatellite,
 .textDebris {
-    fill: var(--first-fluo);
+    fill: var(--fluo-color);
     opacity: 1;
     font-size: 5px;
     vertical-align: baseline;
 }
 
 .markerSatelliteLegend {
-    fill: var(--first-fluo);
+    fill: var(--fluo-color);
 }
 
 .markerDebris,
 .textDebris {
     fill: var(--second-color);
-    fill: var(--first-fluo);
+    fill: var(--fluo-color);
     /* fill: red; */
 }
 
 .markerSatellite,
 .textSatellite {
-    fill: var(--first-fluo);
+    fill: var(--fluo-color);
     /* fill: blue; */
 }
 
@@ -182,12 +182,12 @@ body {
 .lineDebris,
 .disappearLineDebris {
     stroke: var(--second-color);
-    stroke: var(--first-fluo);
+    stroke: var(--fluo-color);
 }
 
 .lineSatellite,
 .disappearLineSatellite {
-    stroke: var(--first-fluo);
+    stroke: var(--fluo-color);
 }
 
 .disappearLineSatellite,
