@@ -315,7 +315,8 @@ async function mapMarkers(element, scale) {
         .attr("class", "legend")
         .attr("xlink:href", "#sphere")
         .attr("startOffset", "60%")
-        .text(d => (element.ownership.includes("CIS")) ? "URRS" : element.ownership)
+        // .text(d => (element.ownership.includes("CIS")) ? "URRS" : element.ownership)
+        .text(element.ownership)
         .attr("dominant-baseline", "text-top")
 
     g.append("text")
