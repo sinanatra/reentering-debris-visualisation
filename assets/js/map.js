@@ -81,14 +81,12 @@ async function loadMap() {
             .geometries)
         .enter()
         .append("text")
-                .attr("dy", 10)
-
+        .attr("dy", -5)
         .attr("class", "navareaText")
         .attr("text-anchor", "middle")
         .attr("dx", 0)
         .attr("transform", (d) => { try { return "translate(" + path.centroid(d) + ") "; } catch { console.error(); } })
         .text(d => d.properties.Name)
-        .call(wrap, 30);
 
     // text labels
     maps.selectAll("navarea")
@@ -96,25 +94,25 @@ async function loadMap() {
             .geometries)
         .enter()
         .append("text")
-         .attr("dy", -50)
+        .attr("dy", -50)
         .attr("class", "navareaText")
         .attr("text-anchor", "middle")
         .attr("transform", (d) => { try { return "translate(" + path.centroid(d) + ") "; } catch { console.error(); } })
         .text(d => d.properties.Area)
-        .call(wrap, 30);
+        .call(wrap, 40);
 
     // text labels
-    maps.selectAll("longhurstText")
-        .data(topojson.object(longhurst, longhurst.objects.longhurst_v4_2010)
-            .geometries)
-        .enter()
-        .append("text")
-        .attr("class", "marineLegend")
-        .attr("text-anchor", "middle")
-        .attr("dx", 0)
-        .attr("transform", (d) => { try { return "translate(" + path.centroid(d) + ") "; } catch { console.error(); } })
-        .text(d => d.properties.ProvDescr)
-        .call(wrap, 30);
+    // maps.selectAll("longhurstText")
+    //     .data(topojson.object(longhurst, longhurst.objects.longhurst_v4_2010)
+    //         .geometries)
+    //     .enter()
+    //     .append("text")
+    //     .attr("class", "marineLegend")
+    //     .attr("text-anchor", "middle")
+    //     .attr("dx", 0)
+    //     .attr("transform", (d) => { try { return "translate(" + path.centroid(d) + ") "; } catch { console.error(); } })
+    //     .text(d => d.properties.ProvDescr)
+    //     .call(wrap, 30);
 
 
     // marineBorders
@@ -359,12 +357,13 @@ async function mapPaths(element) {
     var path = d3.geoPath()
         .projection(projection)
 
-    var reenteringPaths = textures.lines()
-        .orientation("horizontal")
+    var reenteringPaths = textures.paths()
+        .d("crosses")
+        .lighter()
         .strokeWidth(.25)
         .size(patternSize)
-        .shapeRendering("crispEdges")
-        // .background("var(--pattern)");
+        .stroke("var(--fluo-color)")
+        .thicker();
 
     svg.call(reenteringPaths);
 

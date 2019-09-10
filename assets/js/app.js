@@ -33,7 +33,7 @@ $(document).ready(async function() {
 
     // Define a min and max size for the markers
     var scale = d3.scaleLinear().domain([min, max]).range([0.5, 35]);
-    // cleanedData.reverse() // just to test
+    cleanedData.reverse() // just to test
 
     var previousElement = cleanedData[currentElement - 1];
 

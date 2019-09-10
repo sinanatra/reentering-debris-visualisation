@@ -46,8 +46,8 @@ body {
 }
 
 .navareaText {
-    fill: #222;
-    font-size: 5px;
+    fill: var(--second-color);
+    font-size: 4px;
 }
 
 .marineBorders {
@@ -195,8 +195,8 @@ body {
     stroke: var(--second-color);
     stroke-width: .1px;
     opacity: 0;
-    -webkit-transition: stroke-width 12000ms, opacity 20s;
-    transition: stroke-width 12000ms, opacity 20s;
+    -webkit-transition: stroke-width 12000ms;
+    transition: stroke-width 12000ms;
 }
 
 .disappearSatellite,
