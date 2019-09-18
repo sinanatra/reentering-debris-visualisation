@@ -1,4 +1,4 @@
-var radius = 8000;
+var radius = 10000;
 
 $(document).ready(async function() {
     // It loads the Map
@@ -6,7 +6,7 @@ $(document).ready(async function() {
     var currentElement = 0;
 
     //  Loading and cleaning the database
-    var data = await d3.tsv("assets/data/satellite_reentering_cleaned.tsv")
+    var data = await d3.tsv("assets/data/fine.tsv")
     console.log("Loading TLE Database containing: ", data.length, "elements")
     var reenteringPaths = await d3.tsv("assets/data/cleaned_notice.tsv");
     console.log("Loading Marine Notice Database containing: ", reenteringPaths.length, "elements")
@@ -33,7 +33,8 @@ $(document).ready(async function() {
 
     // Define a min and max size for the markers
     var scale = d3.scaleLinear().domain([min, max]).range([0.5, 35]);
-    cleanedData.reverse() // just to test
+
+    // cleanedData.reverse() // just to test
 
     var previousElement = cleanedData[currentElement - 1];
 
@@ -41,7 +42,7 @@ $(document).ready(async function() {
     function parseData(prec) {
         var parseElement = cleanedData[currentElement];
         const currentSatelliteDecay = cleanedData[currentElement].satellite_decay;
-        const currentSatelliteName = cleanedData[currentElement].satellite_name;
+        const currentSatelliteName = cleanedData[currentElement].norad_cat_num;
         previousElement = cleanedData[currentElement - 1];
 
         setTimeout(function() {
@@ -69,7 +70,7 @@ $(document).ready(async function() {
 
                     }
                     // Remove the highlite to the previous element
-                    if (previousElement.satellite_name != currentSatelliteName) {
+                    if (previousElement.norad_cat_num != currentSatelliteName) {
 
                         d3.selectAll(".markerSatellite ")
                             .attr("class", "disappearSatellite")
@@ -99,16 +100,15 @@ $(document).ready(async function() {
                 currentElement++
 
             },
-            currentSatelliteDecay === prec ? 100 : 5000);
+            currentSatelliteDecay === prec ? 100 : 500);
+        // 0);
 
     };
 
     parseData(previousElement);
 
-
-    // for (i in cleanedData.length) {
-    //     console.log(i)
-    //         // mapMarkers(cleanedData[i], scale);
+    // for (i in reenteringPaths) {
+    //     mapPaths(reenteringPaths[i]);
     // }
 
 });

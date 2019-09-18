@@ -47,10 +47,10 @@ async function loadMap() {
 
     var spouaTexture = textures.circles()
         .lighter()
-        .size(patternSize)
+        .size(3)
         .radius(.25)
-        .stroke("var(--pattern)")
-        .fill("var(--pattern)")
+        .stroke("var(--highlite-color)")
+        .fill("var(--highlite-color)")
 
     svg.call(marineTexture);
     svg.call(spouaTexture);
@@ -58,7 +58,6 @@ async function loadMap() {
     // Loading geojson and topojsons
     var world = await d3.json("assets/json/world-10m.json");
     var marineBorders = await d3.json("assets/json/EEZ_land_v2_201410.json");
-    var longhurst = await d3.json("assets/json/longhurst_v4_2010.json");
     var navarea = await d3.json("assets/json/navarea_edit.json");
     var spoua = await d3.json("assets/json/spoua.json");
     var icositetragon = await d3.json("assets/json/icositetragon.json");
@@ -75,7 +74,7 @@ async function loadMap() {
         .attr("d", path)
         .attr('class', 'navarea')
 
-    // text labels
+    // Navarea labels Numbers
     maps.selectAll("navarea")
         .data(topojson.object(navarea, navarea.objects.navarea)
             .geometries)
@@ -85,8 +84,9 @@ async function loadMap() {
         .attr("class", "navareaText")
         .attr("text-anchor", "middle")
         .attr("dx", 0)
-        .attr("transform", (d) => { try { return "translate(" + path.centroid(d) + ") "; } catch { console.error(); } })
-        .text(d => d.properties.Name)
+        .attr("transform", d => { if (!isNaN(path.centroid(d)[0])) { return "translate(" + path.centroid(d) + ")" } })
+        .text(d => { if (!isNaN(path.centroid(d)[0])) { return d.properties.Name } })
+
 
     // text labels
     maps.selectAll("navarea")
@@ -97,23 +97,9 @@ async function loadMap() {
         .attr("dy", -50)
         .attr("class", "navareaText")
         .attr("text-anchor", "middle")
-        .attr("transform", (d) => { try { return "translate(" + path.centroid(d) + ") "; } catch { console.error(); } })
-        .text(d => d.properties.Area)
+        .attr("transform", d => { if (!isNaN(path.centroid(d)[0])) { return "translate(" + path.centroid(d) + ")" } })
+        .text(d => { if (!isNaN(path.centroid(d)[0])) { return d.properties.Area } })
         .call(wrap, 40);
-
-    // text labels
-    // maps.selectAll("longhurstText")
-    //     .data(topojson.object(longhurst, longhurst.objects.longhurst_v4_2010)
-    //         .geometries)
-    //     .enter()
-    //     .append("text")
-    //     .attr("class", "marineLegend")
-    //     .attr("text-anchor", "middle")
-    //     .attr("dx", 0)
-    //     .attr("transform", (d) => { try { return "translate(" + path.centroid(d) + ") "; } catch { console.error(); } })
-    //     .text(d => d.properties.ProvDescr)
-    //     .call(wrap, 30);
-
 
     // marineBorders
     maps.selectAll("marinePath")
@@ -141,55 +127,35 @@ async function loadMap() {
         .attr('class', 'spoua')
         .style("fill", spouaTexture.url());
 
-    maps.append("text")
-        .attr("x", projection([-165, -50])[0] + 5)
-        .attr("y", projection([-194, -50])[1] + 1.5)
-        .text("SPOUA area")
-        .attr('font-size', '3px')
-        .attr('class', 'spouaText')
-
     // Point Nemo and Island
     var pointNemo = await d3.csv("./assets/json/point_nemo_area.csv")
 
+    //  Point Nemo text
     maps.selectAll("pointNemo")
         .data(pointNemo)
         .enter()
         .append("text")
-        .attr("x", d => projection([d.lon, d.lat])[0] + 3.5)
+        .attr("x", d => projection([d.lon, d.lat])[0])
         .attr("y", d => projection([d.lon, d.lat])[1] + 1.5)
         .text(d => d.name)
-        // .attr("font-size", "5px")
-        .attr("font-size", d => (d.name.includes("Nemo")) ? "8px" : "5px")
-        .attr("class", "mainMarker")
+        .attr("class", "nemoMarker")
+        .attr('dx', d => 5 + "px")
+        .attr("text-anchor", "left")
 
+    //  Point Nemo marker
     maps.selectAll("pointNemo")
         .data(pointNemo)
         .enter()
         .append('path')
         .attr('transform', function(d, i) { return 'translate(' + (projection([d.lon, d.lat])[0]) + ',' + (projection([d.lon, d.lat])[1]) + ')'; })
         .attr('d', d3.symbol().type(d3.symbols[3]).size(patternSize))
-        .attr("class", "mainMarker")
+        .attr("class", "nemoMarker")
 
     //Graticule
     maps.append("path")
         .datum(graticule)
         .attr("class", "graticule")
         .attr("d", path)
-
-    // svg.append("path")
-    //     .datum(icositetragon)
-    //     .attr("d", path)
-    //     .attr('fill', '#222')
-
-    // maps.selectAll("icositetragon")
-    //     .data(topojson.object(icositetragon, icositetragon.objects.icositetragon)
-    //         .geometries)
-    //     .enter()
-    //     .append("path")
-    //     .attr("d", path)
-    //     .attr('fill', '#222')
-    //     .attr("stroke-width", "5px")
-    //     .attr("stroke", "none")
 
 
     // Map Legend
@@ -211,7 +177,7 @@ async function loadMap() {
         .append("textPath")
         .attr("startOffset", "6%")
         .attr("xlink:href", "#sphere")
-        .text("SPOUA AREA")
+        .text("SPOUA")
 
     g.append("text")
         .attr("dy", -8)
@@ -270,6 +236,7 @@ async function mapMarkers(element, scale) {
 
     var g = d3.select("g");
 
+    // Debris marker
     g.append("circle")
         .attr("cx", projection([element.lon, element.lat])[0] - 1)
         .attr("cy", projection([element.lon, element.lat])[1] - 1)
@@ -277,28 +244,28 @@ async function mapMarkers(element, scale) {
         .attr("stroke", "none")
         .attr('r', d => scale(element.rcs) + "px")
 
+    // Debris legend text 
     g.append("text")
         .attr("x", projection([element.lon, element.lat])[0])
-        .attr('y', projection([element.lon, element.lat])[1])
+        .attr('y', projection([element.lon, element.lat])[1] + .5 + "px")
         .text(d => (element.satellite_name.includes("DEB")) ? element.satellite_name.replace("DEB", "DEBRIS") : element.satellite_name)
         .attr("class", d => (element.satellite_name.includes("DEB")) ? "textDebris" : "textSatellite")
-        .attr("text-anchor", "middle")
-        .attr('dy', d => scale(element.rcs) + 5 + "px")
-
+        .attr("text-anchor", "left")
+        .attr('dx', d => scale(element.rcs) + 1 + "px")
 
     // Connect Point with same name in a row
     connectDebris.push(element)
-    l = connectDebris.length;
+    l = connectDebris.length
     try {
-        if (element.satellite_name == connectDebris[l - 2].satellite_name) {
+        previousPosition = connectDebris[l - 2];
+        if (element.norad_cat_num == previousPosition.norad_cat_num) {
             g.append("line")
-                .attr("x1", projection([element.lon, element.lat])[0] - 1)
-                .attr("y1", projection([element.lon, element.lat])[1] - 1)
-                .attr("x2", projection([connectDebris[l - 2].lon, connectDebris[l - 2].lat])[0] - 1)
-                .attr("y2", projection([connectDebris[l - 2].lon, connectDebris[l - 2].lat])[1] - 1)
-                .attr("class", d => (element.satellite_name.includes("DEB")) ? "lineDebris" : "lineSatellite")
-        } else {
-            // It empties the array
+                .attr("x1", projection([element.lon, element.lat])[0] - 2)
+                .attr("y1", projection([element.lon, element.lat])[1] - 2)
+                .attr("x2", projection([previousPosition.lon, previousPosition.lat])[0] - 1)
+                .attr("y2", projection([previousPosition.lon, previousPosition.lat])[1] - 1)
+                .attr("class", d => (element.norad_cat_num.includes("DEB")) ? "lineDebris" : "lineSatellite")
+                // It empties the array
             connectDebris = []
         }
     } catch {
@@ -312,18 +279,18 @@ async function mapMarkers(element, scale) {
         .attr("dy", -8)
         .append("textPath")
         .attr("text-anchor", "end")
-        .attr("id", "owner")
         .attr("class", "legend")
         .attr("startOffset", "58%")
         .attr("xlink:href", "#sphere")
         .text(element.satellite_decay)
         .attr("dominant-baseline", "text-top")
 
+    // Countries icon
     g.append("text")
         .attr("dy", -8)
         .append("textPath")
         .attr("text-anchor", "middle")
-        .attr("id", "owner")
+        .attr("id", "icons")
         .attr("class", "legend")
         .attr("xlink:href", "#sphere")
         .attr("startOffset", "60%")
@@ -335,7 +302,6 @@ async function mapMarkers(element, scale) {
         .attr("dy", -8)
         .append("textPath")
         .attr("text-anchor", "start")
-        .attr("id", "owner")
         .attr("class", "legend")
         .attr("startOffset", "62%")
         .attr("xlink:href", "#sphere")
@@ -357,13 +323,13 @@ async function mapPaths(element) {
     var path = d3.geoPath()
         .projection(projection)
 
-    var reenteringPaths = textures.paths()
-        .d("crosses")
-        .lighter()
-        .strokeWidth(.25)
+    var reenteringPaths = textures.lines()
         .size(patternSize)
-        .stroke("var(--fluo-color)")
-        .thicker();
+        .orientation("vertical", "horizontal")
+        .shapeRendering("crispEdges")
+        .strokeWidth(.25)
+        .stroke("var(--first-fluo)")
+        .size(patternSize)
 
     svg.call(reenteringPaths);
 

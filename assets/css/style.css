@@ -1,36 +1,49 @@
 @import "_fonts.css";
 body {
-    background: #222;
-    font-family: Fk Grotesk;
-    font-family: Fk Roman;
-    --highlite-color: rgb(228, 235, 243);
-    --second-color: rgb(68, 83, 76);
-    --second-highlite: rgb(0, 51, 95);
-    --fade-color: rgb(170, 176, 182);
-    --fluo-color: blueviolet;
-    --pattern: orangered;
+    --main-font: Algebra;
+    /* Fk Roman */
+    font-family: var(--main-font);
+    --fade-color: black;
+    --legend: #9e9e9e;
+    --highlite-color: #0094e4;
+    --first-fluo: #a0a000;
+    --second-fluo: #199619;
+    --pattern: #7850e1;
+    --text: var(--pattern);
+    background: var(--fade-color);
+    -moz-font-feature-settings: "kern" 1;
+    -ms-font-feature-settings: "kern" 1;
+    -o-font-feature-settings: "kern" 1;
+    -webkit-font-feature-settings: "kern" 1;
+    font-feature-settings: "kern" 1;
+    font-kerning: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    letter-spacing: .5px;
 }
 
 #sphere {
     fill: var(--fade-color);
+    stroke: var(--second-fluo);
+    stroke-width: 0.25;
 }
 
 .graticule {
     fill: none;
     stroke-width: .15;
-    stroke-dasharray: 8, 8;
-    stroke: var(--second-color);
+    stroke-dasharray: 1, 1;
+    stroke: var(--legend);
 }
 
 .mappa {
-    stroke: var(--second-color);
+    stroke: var(--second-fluo);
     fill: var(--fade-color);
-    /* stroke: var(--second-highlite); */
     stroke-width: 0.25;
 }
 
 .navarea {
-    stroke: var(--second-color);
+    stroke: var(--second-fluo);
     stroke-width: .15;
     stroke-dasharray: 2, 2;
     fill: none;
@@ -38,30 +51,33 @@ body {
 
 .navareaLegend {
     /* stroke: none;
-    fill: var(--second-color); */
+    fill: var(--second-fluo); */
     stroke-width: .5;
     stroke-dasharray: 2, 2;
-    stroke: var(--second-color);
+    stroke: var(--second-fluo);
     fill: none !important;
 }
 
 .navareaText {
-    fill: var(--second-color);
+    fill: var(--second-fluo);
     font-size: 4px;
+    text-shadow: var(--fade-color) 0.3em 0.3em 0.4em
 }
 
 .marineBorders {
     stroke-width: .15;
-    stroke: var(--second-color);
-    fill: var(--second-color);
+    stroke: var(--second-fluo);
+    fill: var(--second-fluo);
 }
 
 .marineBordersLegend {
-    fill: var(--second-color) !important;
+    fill: var(--second-fluo) !important;
 }
 
-.mainMarker {
-    fill: var(--second-color);
+.nemoMarker {
+    fill: var(--highlite-color);
+    font-size: 4px;
+    text-shadow: var(--fade-color) 0.3em 0.3em 0.4em
 }
 
 .marineLegend {
@@ -71,13 +87,9 @@ body {
 
 .spoua {
     fill: none;
-    stroke: var(--second-color);
-    stroke-width: 0.1;
+    stroke: var(--highlite-color);
+    stroke-width: .25;
     font-size: 5px;
-}
-
-.spouaText {
-    fill: var(--second-color);
 }
 
 #map {
@@ -100,31 +112,28 @@ body {
 
 #legend div {
     display: block;
-    color: var(--fade-color);
+    color: var(--legend);
 }
 
 #name,
 #launch,
 #reenter,
 #owner,
-.smallLegend {
+.smallLegend,
+.legend {
     font-size: 1em;
-    font-family: Fk Grotesk;
-    fill: var(--fluo-color);
+    font-family: var(--main-font);
+    fill: var(--first-fluo);
+    text-shadow: var(--fade-color) 0.3em 0.3em 0.4em
 }
 
 .smallLegend {
     font-size: .6em;
-    fill: var(--second-color);
+    fill: var(--legend);
     /* -webkit-transform: matrix(-1, 0, 0, 1, 0, 0);
     -moz-transform: matrix(-1, 0, 0, 1, 0, 0);
     -o-transform: matrix(-1, 0, 0, 1, 0, 0);
     transform: matrix(-1, 0, 0, 1, 0, 0); */
-}
-
-.legend,
-.smallLegend {
-    fill: var(--fade-color);
 }
 
 #maplegend {
@@ -132,45 +141,30 @@ body {
     fill: rgb(150, 71, 225);
 }
 
-#launch:before {
-    content: "Launch date: ";
-    color: var(--fade-color);
-}
-
-#reenter:before {
-    content: "Decay date: ";
-    color: var(--fade-color);
-}
-
-#owner:before {
-    content: "Ownership: ";
-    color: var(--fade-color);
-}
-
 .markerSatellite,
 .markerDebris,
 .textSatellite,
 .textDebris {
-    fill: var(--fluo-color);
+    fill: var(--first-fluo);
     opacity: 1;
     font-size: 5px;
     vertical-align: baseline;
 }
 
 .markerSatelliteLegend {
-    fill: var(--fluo-color);
+    fill: var(--first-fluo);
 }
 
 .markerDebris,
 .textDebris {
-    fill: var(--second-color);
-    fill: var(--fluo-color);
+    fill: var(--second-fluo);
+    fill: var(--first-fluo);
     /* fill: red; */
 }
 
 .markerSatellite,
 .textSatellite {
-    fill: var(--fluo-color);
+    fill: var(--first-fluo);
     /* fill: blue; */
 }
 
@@ -181,18 +175,18 @@ body {
 
 .lineDebris,
 .disappearLineDebris {
-    stroke: var(--second-color);
-    stroke: var(--fluo-color);
+    stroke: var(--second-fluo);
+    stroke: var(--first-fluo);
 }
 
 .lineSatellite,
 .disappearLineSatellite {
-    stroke: var(--fluo-color);
+    stroke: var(--first-fluo);
 }
 
 .disappearLineSatellite,
 .disappearLineDebris {
-    stroke: var(--second-color);
+    stroke: var(--first-fluo);
     stroke-width: .1px;
     opacity: 0;
     -webkit-transition: stroke-width 12000ms;
@@ -201,17 +195,17 @@ body {
 
 .disappearSatellite,
 .disappearTextSatellite {
-    fill: var(--second-color);
+    fill: var(--first-fluo);
 }
 
 .disappearDebris,
 .disappearTextDebris {
-    fill: var(--second-color);
+    fill: var(--first-fluo);
 }
 
 .disappearSatellite,
 .disappearDebris {
-    r: .1px;
+    r: .3px;
     opacity: .3;
     -webkit-transition: r 2000ms, opacity 20s;
     transition: r 2000ms, opacity 20s;
@@ -221,22 +215,23 @@ body {
 .disappearTextSatellite {
     opacity: 0;
     font-size: 5px;
-    -webkit-transition: opacity 20s;
-    transition: opacity 20s;
+    /* -webkit-transition: opacity 20s;
+    transition: opacity 20s; */
 }
 
 .reenteringPaths {
     fill: none;
-    stroke-width: .25;
-    stroke: var(--second-color);
+    stroke-width: .15;
+    stroke: var(--first-fluo);
+    opacity: .5;
 }
 
 .disappearPaths {
-    stroke: var(--second-color);
-    stroke-width: .25;
-    opacity: .3;
-    -webkit-transition: stroke-width 12000ms, opacity 10s;
-    transition: stroke-width 12000ms, opacity 10s;
+    stroke: var(--first-fluo);
+    stroke-width: .15;
+    opacity: .1;
+    -webkit-transition: opacity 2s;
+    transition: opacity 2s;
 }
 
 .asd {
