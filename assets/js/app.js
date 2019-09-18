@@ -32,7 +32,7 @@ $(document).ready(async function() {
     console.log("Minimum value is: ", min, "Maximum value is: ", max)
 
     // Define a min and max size for the markers
-    var scale = d3.scaleLinear().domain([min, max]).range([0.5, 35]);
+    var scale = d3.scaleLinear().domain([min, max]).range([0.5, 10]);
 
     // cleanedData.reverse() // just to test
 
@@ -100,16 +100,25 @@ $(document).ready(async function() {
                 currentElement++
 
             },
-            currentSatelliteDecay === prec ? 100 : 500);
-        // 0);
+            // currentSatelliteDecay === prec ? 0 : 500);
+            0);
 
     };
 
     parseData(previousElement);
 
+
+    // TEST
+
     // for (i in reenteringPaths) {
     //     mapPaths(reenteringPaths[i]);
     // }
+
+    // TEST
+    // for (i in cleanedData) {
+    //     mapMarkers(cleanedData[i], scale);
+    // }
+
 
 });
 

@@ -244,29 +244,32 @@ async function mapMarkers(element, scale) {
         .attr("stroke", "none")
         .attr('r', d => scale(element.rcs) + "px")
 
-    // Debris legend text 
-    g.append("text")
-        .attr("x", projection([element.lon, element.lat])[0])
-        .attr('y', projection([element.lon, element.lat])[1] + .5 + "px")
-        .text(d => (element.satellite_name.includes("DEB")) ? element.satellite_name.replace("DEB", "DEBRIS") : element.satellite_name)
-        .attr("class", d => (element.satellite_name.includes("DEB")) ? "textDebris" : "textSatellite")
-        .attr("text-anchor", "left")
-        .attr('dx', d => scale(element.rcs) + 1 + "px")
-
-    // Connect Point with same name in a row
+    // Connect Point with same name in a row 
     connectDebris.push(element)
     l = connectDebris.length
+    previousPosition = connectDebris[l - 2];
+
     try {
-        previousPosition = connectDebris[l - 2];
         if (element.norad_cat_num == previousPosition.norad_cat_num) {
+            // console.log(element.norad_cat_num, previousPosition.norad_cat_num)
             g.append("line")
                 .attr("x1", projection([element.lon, element.lat])[0] - 2)
                 .attr("y1", projection([element.lon, element.lat])[1] - 2)
                 .attr("x2", projection([previousPosition.lon, previousPosition.lat])[0] - 1)
                 .attr("y2", projection([previousPosition.lon, previousPosition.lat])[1] - 1)
                 .attr("class", d => (element.norad_cat_num.includes("DEB")) ? "lineDebris" : "lineSatellite")
-                // It empties the array
+
+            // It empties the array
             connectDebris = []
+
+            // Debris Legend 
+            g.append("text")
+                .attr("x", projection([element.lon, element.lat])[0])
+                .attr('y', projection([element.lon, element.lat])[1] + .5 + "px")
+                .text(d => (element.satellite_name.includes("DEB")) ? element.satellite_name.replace("DEB", "DEBRIS") : element.satellite_name)
+                .attr("class", d => (element.satellite_name.includes("DEB")) ? "textDebris" : "textSatellite")
+                .attr("text-anchor", "left")
+                .attr('dx', d => scale(element.rcs) + 1 + "px")
         }
     } catch {
         console.error();

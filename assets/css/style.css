@@ -188,9 +188,9 @@ body {
 .disappearLineDebris {
     stroke: var(--first-fluo);
     stroke-width: .1px;
-    opacity: 0;
-    -webkit-transition: stroke-width 12000ms;
-    transition: stroke-width 12000ms;
+    opacity: .1;
+    -webkit-transition: opacity 20s;
+    transition: opacity 20s;
 }
 
 .disappearSatellite,
@@ -205,7 +205,7 @@ body {
 
 .disappearSatellite,
 .disappearDebris {
-    r: .3px;
+    r: .1px;
     opacity: .3;
     -webkit-transition: r 2000ms, opacity 20s;
     transition: r 2000ms, opacity 20s;
