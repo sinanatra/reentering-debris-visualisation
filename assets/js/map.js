@@ -163,7 +163,7 @@ async function loadMap() {
         .attr("dy", -8)
         .attr("class", "smallLegend")
         .append("textPath")
-        .attr("startOffset", "5%")
+        .attr("startOffset", "7%")
         .attr("xlink:href", "#sphere")
         .text("⬤")
         .style("fill", spouaTexture.url())
@@ -175,7 +175,7 @@ async function loadMap() {
         .attr("dy", -8)
         .attr("class", "smallLegend")
         .append("textPath")
-        .attr("startOffset", "6%")
+        .attr("startOffset", "8%")
         .attr("xlink:href", "#sphere")
         .text("SPOUA")
 
@@ -228,7 +228,7 @@ async function loadMap() {
         .append("textPath")
         .attr("startOffset", "32%")
         .attr("xlink:href", "#sphere")
-        .text("DEBRIS REENTERING")
+        .text("REENTERING DEBRIS")
 
 }
 
@@ -236,13 +236,7 @@ async function mapMarkers(element, scale) {
 
     var g = d3.select("g");
 
-    // Debris marker
-    g.append("circle")
-        .attr("cx", projection([element.lon, element.lat])[0] - 1)
-        .attr("cy", projection([element.lon, element.lat])[1] - 1)
-        .attr("class", d => (element.satellite_name.includes("DEB")) ? "markerDebris markers" : "markerSatellite markers")
-        .attr("stroke", "none")
-        .attr('r', d => scale(element.rcs) + "px")
+
 
     // Connect Point with same name in a row 
     connectDebris.push(element)
@@ -253,8 +247,8 @@ async function mapMarkers(element, scale) {
         if (element.norad_cat_num == previousPosition.norad_cat_num) {
             // console.log(element.norad_cat_num, previousPosition.norad_cat_num)
             g.append("line")
-                .attr("x1", projection([element.lon, element.lat])[0] - 2)
-                .attr("y1", projection([element.lon, element.lat])[1] - 2)
+                .attr("x1", projection([element.lon, element.lat])[0] - 1)
+                .attr("y1", projection([element.lon, element.lat])[1] - 1)
                 .attr("x2", projection([previousPosition.lon, previousPosition.lat])[0] - 1)
                 .attr("y2", projection([previousPosition.lon, previousPosition.lat])[1] - 1)
                 .attr("class", d => (element.norad_cat_num.includes("DEB")) ? "lineDebris" : "lineSatellite")
@@ -270,6 +264,14 @@ async function mapMarkers(element, scale) {
                 .attr("class", d => (element.satellite_name.includes("DEB")) ? "textDebris" : "textSatellite")
                 .attr("text-anchor", "left")
                 .attr('dx', d => scale(element.rcs) + 1 + "px")
+
+            // Debris marker
+            g.append("circle")
+                .attr("cx", projection([element.lon, element.lat])[0] - 1)
+                .attr("cy", projection([element.lon, element.lat])[1] - 1)
+                .attr("class", d => (element.satellite_name.includes("DEB")) ? "markerDebris markers" : "markerSatellite markers")
+                .attr("stroke", "none")
+                .attr('r', d => scale(element.rcs) + "px")
         }
     } catch {
         console.error();

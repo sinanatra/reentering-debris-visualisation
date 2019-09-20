@@ -52,7 +52,7 @@ body {
 .navareaLegend {
     /* stroke: none;
     fill: var(--second-fluo); */
-    stroke-width: .5;
+    stroke-width: .15;
     stroke-dasharray: 2, 2;
     stroke: var(--second-fluo);
     fill: none !important;
@@ -61,7 +61,7 @@ body {
 .navareaText {
     fill: var(--second-fluo);
     font-size: 4px;
-    text-shadow: var(--fade-color) 0.3em 0.3em 0.4em
+    text-shadow: var(--fade-color) 0px 0px 5px #000000;
 }
 
 .marineBorders {
@@ -77,7 +77,7 @@ body {
 .nemoMarker {
     fill: var(--highlite-color);
     font-size: 4px;
-    text-shadow: var(--fade-color) 0.3em 0.3em 0.4em
+    text-shadow: var(--fade-color) 0px 0px 5px #000000;
 }
 
 .marineLegend {
@@ -124,7 +124,7 @@ body {
     font-size: 1em;
     font-family: var(--main-font);
     fill: var(--first-fluo);
-    text-shadow: var(--fade-color) 0.3em 0.3em 0.4em
+    text-shadow: var(--fade-color) 0px 0px 5px #000000;
 }
 
 .smallLegend {
@@ -187,10 +187,10 @@ body {
 .disappearLineSatellite,
 .disappearLineDebris {
     stroke: var(--first-fluo);
-    stroke-width: .1px;
-    opacity: .1;
-    -webkit-transition: opacity 20s;
-    transition: opacity 20s;
+    stroke-width: .3px;
+    opacity: .3;
+    -webkit-transition: opacity 2s;
+    transition: opacity 2s;
 }
 
 .disappearSatellite,
@@ -205,8 +205,8 @@ body {
 
 .disappearSatellite,
 .disappearDebris {
-    r: .1px;
-    opacity: .3;
+    r: .3px;
+    opacity: 1;
     -webkit-transition: r 2000ms, opacity 20s;
     transition: r 2000ms, opacity 20s;
 }
