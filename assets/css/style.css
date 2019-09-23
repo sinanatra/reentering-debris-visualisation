@@ -23,10 +23,17 @@ body {
     letter-spacing: .5px;
 }
 
+#icositetragon,
 #sphere {
     fill: var(--fade-color);
     stroke: var(--second-fluo);
-    stroke-width: 0.25;
+    stroke-width: .25;
+    fill: none;
+}
+
+#sphere {
+    fill: none;
+    stroke: none;
 }
 
 .graticule {

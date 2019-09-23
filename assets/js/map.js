@@ -8,8 +8,13 @@ var patternSize = 6;
 var projection = d3.geoAzimuthalEquidistant() //geoOrthographic //geoAzimuthalEquidistant
     .rotate([123, 48]) //centered on Point Nemo
     .scale(150)
-    .precision(.1)
-    .clipAngle(90)
+    .precision(1)
+    .clipAngle(95)
+
+var circleprojection = d3.geoAzimuthalEquidistant()
+    .rotate([123, 48]) //centered on Point Nemo
+    .scale(150)
+    .precision(200)
 
 async function loadMap() {
     height = window.innerHeight / 1.01;
@@ -25,19 +30,13 @@ async function loadMap() {
     var path = d3.geoPath()
         .projection(projection)
 
+    var circledPath = d3.geoPath()
+        .projection(circleprojection)
+
     var graticule = d3.geoGraticule()
         .step([0, 10]);
 
-    svg.append("defs").append("path")
-        .datum({ type: "Sphere" })
-        .attr("id", "sphere")
-        .attr("d", path)
-
-    svg.append("use")
-        .attr("class", "stroke")
-        .attr("xlink:href", "#sphere");
-
-    //  Defining patterns
+    //  Patterns
     var marineTexture = textures.lines()
         .orientation("vertical", "horizontal")
         .size(patternSize)
@@ -60,7 +59,6 @@ async function loadMap() {
     var marineBorders = await d3.json("assets/json/EEZ_land_v2_201410.json");
     var navarea = await d3.json("assets/json/navarea_edit.json");
     var spoua = await d3.json("assets/json/spoua.json");
-    var icositetragon = await d3.json("assets/json/icositetragon.json");
 
     var maps = svg.append("g")
     var g = svg.append("g");
@@ -157,9 +155,33 @@ async function loadMap() {
         .attr("d", path)
 
 
+    // Clipping polygon
+    var icositetragon = await d3.json("assets/json/icositetragon.geojson"); // cropping in the shape of an icositetragon
+
+    svg.append("defs").append("path")
+        .datum({ type: "Sphere" })
+        .attr("id", "sphere")
+        .attr("d", path)
+
+    svg.append("defs").append("path")
+        .datum(icositetragon)
+        .attr("id", "icositetragon")
+        .attr("d", circledPath)
+
+    svg.append("use")
+        .attr("class", "stroke")
+        .attr("xlink:href", "#icositetragon");
+
+    svg.append("use")
+        .attr("class", "stroke")
+        .attr("xlink:href", "#sphere");
+
+
+    // End Clipping polygon
+
     // Map Legend
     g.append("text")
-        .attr("dy", -8)
+        .attr("dy", -10)
         .attr("class", "smallLegend")
         .append("textPath")
         .attr("startOffset", "7%")
@@ -171,7 +193,7 @@ async function loadMap() {
 
 
     g.append("text")
-        .attr("dy", -8)
+        .attr("dy", -10)
         .attr("class", "smallLegend")
         .append("textPath")
         .attr("startOffset", "8%")
@@ -179,7 +201,7 @@ async function loadMap() {
         .text("SPOUA") // South Pacific Ocean Uninhabited Area 
 
     g.append("text")
-        .attr("dy", -8)
+        .attr("dy", -10)
         .attr("class", "smallLegend")
         .append("textPath")
         .attr("startOffset", "11%")
@@ -190,7 +212,7 @@ async function loadMap() {
         .attr("stroke", "var(--second-fluo)")
 
     g.append("text")
-        .attr("dy", -8)
+        .attr("dy", -10)
         .attr("class", "smallLegend")
         .append("textPath")
         .attr("startOffset", "12%")
@@ -198,7 +220,7 @@ async function loadMap() {
         .text("MARINE PROTECTED AREAS")
 
     g.append("text")
-        .attr("dy", -8)
+        .attr("dy", -10)
         .attr("class", "smallLegend navareaLegend")
         .append("textPath")
         .attr("startOffset", "22%")
@@ -206,7 +228,7 @@ async function loadMap() {
         .text("⬤")
 
     g.append("text")
-        .attr("dy", -8)
+        .attr("dy", -10)
         .attr("class", "smallLegend")
         .append("textPath")
         .attr("startOffset", "23%")
@@ -214,7 +236,7 @@ async function loadMap() {
         .text("NAVIGATIONAL AREAS")
 
     g.append("text")
-        .attr("dy", -8)
+        .attr("dy", -10)
         .attr("class", "smallLegend markerSatelliteLegend")
         .append("textPath")
         .attr("startOffset", "31%")
@@ -222,24 +244,15 @@ async function loadMap() {
         .text("⬤")
 
     g.append("text")
-        .attr("dy", -8)
+        .attr("dy", -10)
         .attr("class", "smallLegend")
         .append("textPath")
         .attr("startOffset", "32%")
         .attr("xlink:href", "#sphere")
         .text("REENTERING DEBRIS")
 
-    // Icositetragon
-    console.log(icositetragon)
-    maps.selectAll("path")
-        .data(topojson.object(icositetragon, icositetragon.objects.icositetragon)
-            .geometries)
-        .enter()
-        .append("path")
-        .attr("d", path)
-        .attr('stroke', 'red')
-        .attr('fill', 'white')
-        .attr('stroke-width', '1px')
+
+
 }
 
 async function mapMarkers(element, scale) {
@@ -288,7 +301,7 @@ async function mapMarkers(element, scale) {
     d3.selectAll(".legend").remove();
 
     g.append("text")
-        .attr("dy", -8)
+        .attr("dy", -10)
         .append("textPath")
         .attr("text-anchor", "end")
         .attr("class", "legend")
@@ -299,7 +312,7 @@ async function mapMarkers(element, scale) {
 
     // Countries icon
     g.append("text")
-        .attr("dy", -8)
+        .attr("dy", -10)
         .append("textPath")
         .attr("text-anchor", "middle")
         .attr("id", "icons")
@@ -311,7 +324,7 @@ async function mapMarkers(element, scale) {
         .attr("dominant-baseline", "text-top")
 
     g.append("text")
-        .attr("dy", -8)
+        .attr("dy", -10)
         .append("textPath")
         .attr("text-anchor", "start")
         .attr("class", "legend")
