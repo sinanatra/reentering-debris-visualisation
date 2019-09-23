@@ -55,7 +55,7 @@ async function loadMap() {
     svg.call(marineTexture);
     svg.call(spouaTexture);
 
-    // Loading geojson and topojsons
+    // Loading all the topojsons
     var world = await d3.json("assets/json/world-10m.json");
     var marineBorders = await d3.json("assets/json/EEZ_land_v2_201410.json");
     var navarea = await d3.json("assets/json/navarea_edit.json");
@@ -86,7 +86,6 @@ async function loadMap() {
         .attr("dx", 0)
         .attr("transform", d => { if (!isNaN(path.centroid(d)[0])) { return "translate(" + path.centroid(d) + ")" } })
         .text(d => { if (!isNaN(path.centroid(d)[0])) { return d.properties.Name } })
-
 
     // text labels
     maps.selectAll("navarea")
@@ -168,7 +167,7 @@ async function loadMap() {
         .text("⬤")
         .style("fill", spouaTexture.url())
         .attr("stroke-width", ".4")
-        .attr("stroke", "var(--pattern)")
+        .attr("stroke", "var(--highlite-color)")
 
 
     g.append("text")
@@ -177,7 +176,7 @@ async function loadMap() {
         .append("textPath")
         .attr("startOffset", "8%")
         .attr("xlink:href", "#sphere")
-        .text("SPOUA")
+        .text("SPOUA") // South Pacific Ocean Uninhabited Area 
 
     g.append("text")
         .attr("dy", -8)
@@ -187,8 +186,8 @@ async function loadMap() {
         .attr("xlink:href", "#sphere")
         .text("⬤")
         .style("fill", marineTexture.url())
-        .attr("stroke-width", ".4")
-        .attr("stroke", "var(--pattern)")
+        .attr("stroke-width", ".25")
+        .attr("stroke", "var(--second-fluo)")
 
     g.append("text")
         .attr("dy", -8)
@@ -230,13 +229,21 @@ async function loadMap() {
         .attr("xlink:href", "#sphere")
         .text("REENTERING DEBRIS")
 
+    // Icositetragon
+    console.log(icositetragon)
+    maps.selectAll("path")
+        .data(topojson.object(icositetragon, icositetragon.objects.icositetragon)
+            .geometries)
+        .enter()
+        .append("path")
+        .attr("d", path)
+        .attr('stroke', 'red')
+        .attr('fill', 'white')
+        .attr('stroke-width', '1px')
 }
 
 async function mapMarkers(element, scale) {
-
     var g = d3.select("g");
-
-
 
     // Connect Point with same name in a row 
     connectDebris.push(element)
@@ -312,11 +319,7 @@ async function mapMarkers(element, scale) {
         .attr("xlink:href", "#sphere")
         .text(d => (element.satellite_name.includes("DEB")) ? element.satellite_name.replace("DEB", "DEBRIS") : element.satellite_name)
         .attr("dominant-baseline", "text-top")
-
 };
-
-
-
 
 async function mapPaths(element) {
     var coordinates = element.coord
@@ -338,7 +341,6 @@ async function mapPaths(element) {
 
     svg.call(reenteringPaths);
 
-
     g.append("path")
         .datum({
             type: "LineString",
@@ -348,8 +350,6 @@ async function mapPaths(element) {
         .attr('class', 'reenteringPaths')
         .attr('id', 'reenteringPaths')
         .style("fill", reenteringPaths.url());
-
-
 };
 
 

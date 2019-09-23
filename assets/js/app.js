@@ -21,7 +21,6 @@ $(document).ready(async function() {
         if (n <= radius) {
             cleanedData.push(data[i])
         }
-
     }
 
     console.log("Cleaned TLE Database, now containing: ", cleanedData.length, "elements")
@@ -47,61 +46,61 @@ $(document).ready(async function() {
 
         setTimeout(function() {
 
-                    // When it restarts it removes all the previous svg elements
-                    if (currentElement == (cleanedData.length - 1)) {
-                        currentElement = 0;
-                        d3.selectAll(".markerSatellite, .markerDebris, .textSatellite, .textDebris, .lineDebris ,.lineSatellite ,.reenteringPaths")
-                            .remove();
-                        console.log("Restarting the loop")
+                // When it restarts it removes all the previous svg elements
+                if (currentElement == (cleanedData.length - 1)) {
+                    currentElement = 0;
+                    d3.selectAll(".markerSatellite, .markerDebris, .textSatellite, .textDebris, .lineDebris ,.lineSatellite ,.reenteringPaths")
+                        .remove();
+                    console.log("Restarting the loop")
+                }
+                // Add NAVSAT paths if they match the year and month of the satellite reentry
+                try {
+                    if (parseElement.satellite_decay != prec) {
+                        for (i in reenteringPaths) {
+                            try {
+                                // Select only the year and month
+                                var monthYear1 = reenteringPaths[i].time.slice(0, 7);
+                                var monthYear2 = parseElement.satellite_decay.slice(0, 7);
+                                if (monthYear1.includes(monthYear2)) {
+                                    mapPaths(reenteringPaths[i]);
+                                }
+                            } catch {}
+                        }
+
                     }
-                    // Add NAVSAT paths if they match the year and month of the satellite reentry
-                    try {
-                        if (parseElement.satellite_decay != prec) {
-                            for (i in reenteringPaths) {
-                                try {
-                                    // Select only the year and month
-                                    var monthYear1 = reenteringPaths[i].time.slice(0, 7);
-                                    var monthYear2 = parseElement.satellite_decay.slice(0, 7);
-                                    if (monthYear1.includes(monthYear2)) {
-                                        mapPaths(reenteringPaths[i]);
-                                    }
-                                } catch {}
-                            }
+                    // Remove the highlite to the previous element
+                    if (previousElement.norad_cat_num != currentSatelliteName) {
 
-                        }
-                        // Remove the highlite to the previous element
-                        if (previousElement.norad_cat_num != currentSatelliteName) {
+                        d3.selectAll(".markerSatellite ")
+                            .attr("class", "disappearSatellite")
 
-                            d3.selectAll(".markerSatellite ")
-                                .attr("class", "disappearSatellite")
+                        d3.selectAll(".markerDebris ")
+                            .attr("class", "disappearDebris")
 
-                            d3.selectAll(".markerDebris ")
-                                .attr("class", "disappearDebris")
+                        d3.selectAll(".textSatellite")
+                            .attr("class", "disappearTextSatellite")
 
-                            d3.selectAll(".textSatellite")
-                                .attr("class", "disappearTextSatellite")
+                        d3.selectAll(".textDebris")
+                            .attr("class", "disappearTextDebris")
 
-                            d3.selectAll(".textDebris")
-                                .attr("class", "disappearTextDebris")
+                        d3.selectAll(".lineDebris")
+                            .attr("class", "disappearLineDebris")
 
-                            d3.selectAll(".lineDebris")
-                                .attr("class", "disappearLineDebris")
+                        d3.selectAll(".lineSatellite")
+                            .attr("class", "disappearLineSatellite")
 
-                            d3.selectAll(".lineSatellite")
-                                .attr("class", "disappearLineSatellite")
+                        d3.selectAll(".reenteringPaths")
+                            .attr("class", "disappearPaths")
+                    }
+                } catch {}
 
-                            d3.selectAll(".reenteringPaths")
-                                .attr("class", "disappearPaths")
-                        }
-                    } catch {}
+                parseData(currentSatelliteDecay);
+                mapMarkers(parseElement, scale);
+                currentElement++
 
-                    parseData(currentSatelliteDecay);
-                    mapMarkers(parseElement, scale);
-                    currentElement++
-
-                },
-                // currentSatelliteDecay === prec ? 0 : 500);
-                0) // JUST TO TEST
+            },
+            currentSatelliteDecay === prec ? 0 : 2500);
+        // 0) // JUST TO TEST
 
     };
 
