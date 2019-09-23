@@ -27,7 +27,7 @@ body {
 #sphere {
     fill: var(--fade-color);
     stroke: var(--second-fluo);
-    stroke-width: .25;
+    stroke-width: 1.25;
     fill: none;
 }
 

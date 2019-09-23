@@ -9,7 +9,7 @@ var projection = d3.geoAzimuthalEquidistant() //geoOrthographic //geoAzimuthalEq
     .rotate([123, 48]) //centered on Point Nemo
     .scale(150)
     .precision(1)
-    .clipAngle(95)
+    .clipAngle(95.3)
 
 var circleprojection = d3.geoAzimuthalEquidistant()
     .rotate([123, 48]) //centered on Point Nemo
@@ -167,6 +167,7 @@ async function loadMap() {
         .datum(icositetragon)
         .attr("id", "icositetragon")
         .attr("d", circledPath)
+        .attr("transof")
 
     svg.append("use")
         .attr("class", "stroke")
