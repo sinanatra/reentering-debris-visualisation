@@ -4,7 +4,6 @@ $(document).ready(async function() {
     // It loads the Map
     await loadMap()
     var currentElement = 0;
-
     //  Loading and cleaning the database
     var data = await d3.tsv("assets/data/finaldataset_cleaned.tsv")
     console.log("Loading TLE Database containing: ", data.length, "elements")
@@ -12,7 +11,6 @@ $(document).ready(async function() {
     console.log("Loading Marine Notice Database containing: ", reenteringPaths.length, "elements")
 
     var cleanedData = [];
-
     // Selecting only debris in a specific radius
     for (i in data) {
         var loc1 = { lat: nemoLat, lon: nemoLon };
@@ -24,8 +22,7 @@ $(document).ready(async function() {
     }
 
     console.log("Cleaned TLE Database, now containing: ", cleanedData.length, "elements")
-
-    // Normalise the array
+        // Normalise the array
     var min = d3.min(cleanedData, d => d.rcs);
     var max = d3.max(cleanedData, d => parseFloat(d.rcs));
     console.log("Minimum value is: ", min, "Maximum value is: ", max)
@@ -36,7 +33,6 @@ $(document).ready(async function() {
     // cleanedData.reverse() // just to test
 
     var previousElement = cleanedData[currentElement - 1];
-
     // If the previous line is the same it parses the tsv immediately, else it waits
     function parseData(prec) {
         var parseElement = cleanedData[currentElement];
@@ -66,7 +62,6 @@ $(document).ready(async function() {
                                 }
                             } catch {}
                         }
-
                     }
                     // Remove the highlite to the previous element
                     if (previousElement.norad_cat_num != currentSatelliteName) {
@@ -100,8 +95,6 @@ $(document).ready(async function() {
 
             },
             currentSatelliteDecay === prec ? 0 : 2500);
-        // 0) // JUST TO TEST
-
     };
 
     parseData(previousElement);

@@ -51,6 +51,15 @@ async function loadMap() {
         .stroke("var(--highlite-color)")
         .fill("var(--highlite-color)")
 
+    var reenteringPaths = textures.lines()
+        .size(patternSize)
+        .orientation("vertical", "horizontal")
+        .shapeRendering("crispEdges")
+        .strokeWidth(.25)
+        .stroke("var(--first-fluo)")
+        .size(patternSize)
+
+    svg.call(reenteringPaths);
     svg.call(marineTexture);
     svg.call(spouaTexture);
 
@@ -154,7 +163,6 @@ async function loadMap() {
         .attr("class", "graticule")
         .attr("d", path)
 
-
     // Clipping polygon
     var icositetragon = await d3.json("assets/json/icositetragon.geojson"); // cropping in the shape of an icositetragon
 
@@ -177,7 +185,6 @@ async function loadMap() {
         .attr("class", "stroke")
         .attr("xlink:href", "#sphere");
 
-
     // End Clipping polygon
 
     // Map Legend
@@ -189,9 +196,8 @@ async function loadMap() {
         .attr("xlink:href", "#sphere")
         .text("⬤")
         .style("fill", spouaTexture.url())
-        .attr("stroke-width", ".4")
+        .attr("stroke-width", ".25")
         .attr("stroke", "var(--highlite-color)")
-
 
     g.append("text")
         .attr("dy", -10)
@@ -242,7 +248,8 @@ async function loadMap() {
         .append("textPath")
         .attr("startOffset", "31%")
         .attr("xlink:href", "#sphere")
-        .text("⬤")
+        .text("⬤") // 	⫰
+        // .attr("font-size", "5px")
 
     g.append("text")
         .attr("dy", -10)
@@ -253,7 +260,24 @@ async function loadMap() {
         .text("REENTERING DEBRIS")
 
 
+    g.append("text")
+        .attr("dy", -10)
+        .attr("class", "smallLegend")
+        .append("textPath")
+        .attr("startOffset", "39%")
+        .attr("xlink:href", "#sphere")
+        .text("⬤")
+        .style("fill", reenteringPaths.url())
+        .attr("stroke-width", ".25")
+        .attr("stroke", "var(--first-fluo)")
 
+    g.append("text")
+        .attr("dy", -10)
+        .attr("class", "smallLegend")
+        .append("textPath")
+        .attr("startOffset", "40%")
+        .attr("xlink:href", "#sphere")
+        .text("NOTICE TO MARINERS")
 }
 
 async function mapMarkers(element, scale) {

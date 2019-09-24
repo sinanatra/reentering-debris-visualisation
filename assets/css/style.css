@@ -46,7 +46,7 @@ body {
 .mappa {
     stroke: var(--second-fluo);
     fill: var(--fade-color);
-    stroke-width: 0.25;
+    stroke-width: .15;
 }
 
 .navarea {
@@ -95,7 +95,7 @@ body {
 .spoua {
     fill: none;
     stroke: var(--highlite-color);
-    stroke-width: .25;
+    stroke-width: .15;
     font-size: 5px;
 }
 
