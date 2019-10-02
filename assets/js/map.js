@@ -23,7 +23,7 @@ async function loadMap() {
         .append("div")
         .attr("id", "svg")
         .append("svg")
-        .attr("width", "100%")
+        .attr("width", "50%")
         .attr("height", height)
         .attr("viewBox", "0 0 840 500")
 
@@ -81,31 +81,7 @@ async function loadMap() {
         .attr("d", path)
         .attr('class', 'navarea')
 
-    // Navarea labels Numbers
-    maps.selectAll("navarea")
-        .data(topojson.object(navarea, navarea.objects.navarea)
-            .geometries)
-        .enter()
-        .append("text")
-        .attr("dy", -5)
-        .attr("class", "navareaText")
-        .attr("text-anchor", "middle")
-        .attr("dx", 0)
-        .attr("transform", d => { if (!isNaN(path.centroid(d)[0])) { return "translate(" + path.centroid(d) + ")" } })
-        .text(d => { if (!isNaN(path.centroid(d)[0])) { return d.properties.Name } })
 
-    // text labels
-    maps.selectAll("navarea")
-        .data(topojson.object(navarea, navarea.objects.navarea)
-            .geometries)
-        .enter()
-        .append("text")
-        .attr("dy", -50)
-        .attr("class", "navareaText")
-        .attr("text-anchor", "middle")
-        .attr("transform", d => { if (!isNaN(path.centroid(d)[0])) { return "translate(" + path.centroid(d) + ")" } })
-        .text(d => { if (!isNaN(path.centroid(d)[0])) { return d.properties.Area } })
-        .call(wrap, 40);
 
     // marineBorders
     maps.selectAll("marinePath")
@@ -278,6 +254,32 @@ async function loadMap() {
         .attr("startOffset", "40%")
         .attr("xlink:href", "#sphere")
         .text("NOTICE TO MARINERS")
+
+    // Navarea labels Numbers
+    maps.selectAll("navarea")
+        .data(topojson.object(navarea, navarea.objects.navarea)
+            .geometries)
+        .enter()
+        .append("text")
+        .attr("dy", -5)
+        .attr("class", "navareaText")
+        .attr("text-anchor", "middle")
+        .attr("dx", 0)
+        .attr("transform", d => { if (!isNaN(path.centroid(d)[0])) { return "translate(" + path.centroid(d) + ")" } })
+        .text(d => { if (!isNaN(path.centroid(d)[0])) { return d.properties.Name } })
+
+    // text labels
+    maps.selectAll("navarea")
+        .data(topojson.object(navarea, navarea.objects.navarea)
+            .geometries)
+        .enter()
+        .append("text")
+        .attr("dy", -50)
+        .attr("class", "navareaText")
+        .attr("text-anchor", "middle")
+        .attr("transform", d => { if (!isNaN(path.centroid(d)[0])) { return "translate(" + path.centroid(d) + ")" } })
+        .text(d => { if (!isNaN(path.centroid(d)[0])) { return d.properties.Area } })
+        .call(wrap, 40);
 }
 
 async function mapMarkers(element, scale) {

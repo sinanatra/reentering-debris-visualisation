@@ -27,7 +27,7 @@ body {
 #sphere {
     fill: var(--fade-color);
     stroke: var(--second-fluo);
-    stroke-width: 1.25;
+    stroke-width: .15;
     fill: none;
 }
 
@@ -68,7 +68,7 @@ body {
 .navareaText {
     fill: var(--second-fluo);
     font-size: 4px;
-    text-shadow: var(--fade-color) 0px 0px 5px #000000;
+    text-shadow: red 0px 0px 50px red;
 }
 
 .marineBorders {
@@ -195,9 +195,9 @@ body {
 .disappearLineDebris {
     stroke: var(--first-fluo);
     stroke-width: .3px;
-    opacity: .3;
-    -webkit-transition: opacity 2s;
-    transition: opacity 2s;
+    opacity: .2;
+    -webkit-transition: opacity 1s;
+    transition: opacity 1s;
 }
 
 .disappearSatellite,
