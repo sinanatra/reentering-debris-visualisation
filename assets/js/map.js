@@ -23,7 +23,7 @@ async function loadMap() {
         .append("div")
         .attr("id", "svg")
         .append("svg")
-        .attr("width", "50%")
+        .attr("width", "100%")
         .attr("height", height)
         .attr("viewBox", "0 0 840 500")
 
