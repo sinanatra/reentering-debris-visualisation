@@ -97,7 +97,7 @@ $(document).ready(async function() {
             currentSatelliteDecay === prec ? 0 : 100);
     };
 
-    // parseData(previousElement);
+    parseData(previousElement);
 
 
     // TEST
