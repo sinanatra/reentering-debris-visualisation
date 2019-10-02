@@ -23,7 +23,7 @@ async function loadMap() {
         .append("div")
         .attr("id", "svg")
         .append("svg")
-        .attr("width", "50%")
+        .attr("width", "100%")
         .attr("height", height)
         .attr("viewBox", "0 0 840 500")
 
@@ -266,7 +266,8 @@ async function loadMap() {
         .attr("text-anchor", "middle")
         .attr("dx", 0)
         .attr("transform", d => { if (!isNaN(path.centroid(d)[0])) { return "translate(" + path.centroid(d) + ")" } })
-        .text(d => { if (!isNaN(path.centroid(d)[0])) { return d.properties.Name } })
+
+    .text(d => { if (!isNaN(path.centroid(d)[0])) { return d.properties.Name } })
 
     // text labels
     maps.selectAll("navarea")
@@ -279,7 +280,9 @@ async function loadMap() {
         .attr("text-anchor", "middle")
         .attr("transform", d => { if (!isNaN(path.centroid(d)[0])) { return "translate(" + path.centroid(d) + ")" } })
         .text(d => { if (!isNaN(path.centroid(d)[0])) { return d.properties.Area } })
-        .call(wrap, 40);
+
+    .call(wrap, 40);
+
 }
 
 async function mapMarkers(element, scale) {

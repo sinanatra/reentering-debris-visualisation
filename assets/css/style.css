@@ -1,4 +1,4 @@
-@import "_fonts.css";
+@import "fonts.css";
 body {
     --main-font: Algebra;
     /* Fk Roman */
@@ -84,7 +84,7 @@ body {
 .nemoMarker {
     fill: var(--highlite-color);
     font-size: 4px;
-    text-shadow: var(--fade-color) 0px 0px 5px #000000;
+    text-shadow: var(--fade-color) 0px 0px 5px var(--fade-color);
 }
 
 .marineLegend {
@@ -131,7 +131,7 @@ body {
     font-size: 1em;
     font-family: var(--main-font);
     fill: var(--first-fluo);
-    text-shadow: var(--fade-color) 0px 0px 5px #000000;
+    text-shadow: var(--fade-color) 0px 0px 5px var(--fade-color);
 }
 
 .smallLegend {
@@ -195,7 +195,7 @@ body {
 .disappearLineDebris {
     stroke: var(--first-fluo);
     stroke-width: .3px;
-    opacity: .2;
+    opacity: .1;
     -webkit-transition: opacity 1s;
     transition: opacity 1s;
 }
