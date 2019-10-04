@@ -96,7 +96,7 @@ $(document).ready(async function() {
                 currentElement++
 
             },
-            currentSatelliteDecay === prec ? 0 : 200);
+            currentSatelliteDecay === prec ? 0 : 500);
     };
 
     parseData(previousElement);
