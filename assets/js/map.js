@@ -73,7 +73,7 @@ async function loadMap() {
     var g = svg.append("g");
 
     // Navearea
-    maps.selectAll("navarea")
+    g.selectAll("navarea")
         .data(topojson.object(navarea, navarea.objects.navarea)
             .geometries)
         .enter()
@@ -84,7 +84,7 @@ async function loadMap() {
 
 
     // marineBorders
-    maps.selectAll("marinePath")
+    g.selectAll("marinePath")
         .data(topojson.object(marineBorders, marineBorders.objects.EEZ_land_v2_201410)
             .geometries)
         .enter()
@@ -94,7 +94,7 @@ async function loadMap() {
         .style("fill", marineTexture.url());
 
     // Countries
-    maps.append("path")
+    g.append("path")
         .data(topojson.object(world, world.objects.ne_10m_land)
             .geometries)
         .attr("d", path)
@@ -102,7 +102,7 @@ async function loadMap() {
         .attr('id', 'mappa')
 
     // Spoua Area
-    maps.append("path")
+    g.append("path")
         .data(topojson.object(spoua, spoua.objects.spoua)
             .geometries)
         .attr("d", path)
@@ -113,7 +113,7 @@ async function loadMap() {
     var pointNemo = await d3.csv("./assets/json/point_nemo_area.csv")
 
     //  Point Nemo text
-    maps.selectAll("pointNemo")
+    svg.selectAll("pointNemo")
         .data(pointNemo)
         .enter()
         .append("text")
@@ -125,7 +125,7 @@ async function loadMap() {
         .attr("text-anchor", "left")
 
     //  Point Nemo marker
-    maps.selectAll("pointNemo")
+    svg.selectAll("pointNemo")
         .data(pointNemo)
         .enter()
         .append('path')
@@ -134,7 +134,7 @@ async function loadMap() {
         .attr("class", "nemoMarker")
 
     //Graticule
-    maps.append("path")
+    svg.append("path")
         .datum(graticule)
         .attr("class", "graticule")
         .attr("d", path)
@@ -331,6 +331,7 @@ async function mapMarkers(element, scale) {
     d3.selectAll(".legend").remove();
 
     g.append("text")
+        .attr("class", "legend")
         .attr("dy", -10)
         .append("textPath")
         .attr("text-anchor", "end")
@@ -340,20 +341,20 @@ async function mapMarkers(element, scale) {
         .text(element.satellite_decay)
         .attr("dominant-baseline", "text-top")
 
-    // Countries icon
+    // Countries 
     g.append("text")
+        .attr("class", "legend")
         .attr("dy", -10)
         .append("textPath")
         .attr("text-anchor", "middle")
-        .attr("id", "icons")
         .attr("class", "legend")
         .attr("xlink:href", "#sphere")
         .attr("startOffset", "60%")
-        // .text(d => (element.ownership.includes("CIS")) ? "URRS" : element.ownership)
         .text(element.ownership)
         .attr("dominant-baseline", "text-top")
 
     g.append("text")
+        .attr("class", "legend")
         .attr("dy", -10)
         .append("textPath")
         .attr("text-anchor", "start")

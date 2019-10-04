@@ -53,7 +53,7 @@ $(document).ready(async function() {
                 try {
                     if (parseElement.satellite_decay != prec) {
                         for (i in reenteringPaths) {
-                            d3.selectAll(".textSatellite, .textDebris, .lineDebris ,.lineSatellite")
+                            d3.selectAll(".textSatellite,.disappearTextSatellite .textDebris,.disappearTextDebris, .lineDebris ,.lineSatellite")
                                 .remove();
                             try {
                                 // Select only the year and month
