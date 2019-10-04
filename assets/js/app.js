@@ -53,6 +53,8 @@ $(document).ready(async function() {
                 try {
                     if (parseElement.satellite_decay != prec) {
                         for (i in reenteringPaths) {
+                            d3.selectAll(".textSatellite, .textDebris, .lineDebris ,.lineSatellite")
+                                .remove();
                             try {
                                 // Select only the year and month
                                 var monthYear1 = reenteringPaths[i].time.slice(0, 7);
@@ -94,7 +96,7 @@ $(document).ready(async function() {
                 currentElement++
 
             },
-            currentSatelliteDecay === prec ? 0 : 3000);
+            currentSatelliteDecay === prec ? 0 : 200);
     };
 
     parseData(previousElement);
