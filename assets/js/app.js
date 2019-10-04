@@ -43,12 +43,13 @@ $(document).ready(async function() {
         setTimeout(function() {
 
                 // When it restarts it removes all the previous svg elements
-                if (currentElement == (cleanedData.length - 1)) {
-                    currentElement = 0;
-                    d3.selectAll(".markerSatellite, .markerDebris, .textSatellite, .textDebris, .lineDebris ,.lineSatellite ,.reenteringPaths")
-                        .remove();
-                    console.log("Restarting the loop")
-                }
+                // if (currentElement == (cleanedData.length - 1)) {
+                //     currentElement = 0;
+                //     d3.selectAll(".markerSatellite, .markerDebris, .textSatellite, .textDebris, .lineDebris ,.lineSatellite ,.reenteringPaths")
+                //         .remove();
+                //     console.log("Restarting the loop")
+                // }
+
                 // Add NAVSAT paths if they match the year and month of the satellite reentry
                 try {
                     if (parseElement.satellite_decay != prec) {

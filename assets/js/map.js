@@ -40,8 +40,8 @@ async function loadMap() {
     var marineTexture = textures.lines()
         .orientation("vertical", "horizontal")
         .size(patternSize)
-        .shapeRendering("crispEdges")
-        .strokeWidth(.25)
+        // .shapeRendering("crispEdges")
+        .strokeWidth(.40)
         .stroke("var(--pattern)")
 
     var spouaTexture = textures.circles()
@@ -54,8 +54,8 @@ async function loadMap() {
     var reenteringPaths = textures.lines()
         .size(patternSize)
         .orientation("vertical", "horizontal")
-        .shapeRendering("crispEdges")
-        .strokeWidth(.25)
+        // .shapeRendering("crispEdges")
+        .strokeWidth(.40)
         .stroke("var(--first-fluo)")
         .size(patternSize)
 
@@ -378,8 +378,8 @@ async function mapPaths(element) {
     var reenteringPaths = textures.lines()
         .size(patternSize)
         .orientation("vertical", "horizontal")
-        .shapeRendering("crispEdges")
-        .strokeWidth(.25)
+        // .shapeRendering("crispEdges")
+        .strokeWidth(.40)
         .stroke("var(--first-fluo)")
         .size(patternSize)
 
