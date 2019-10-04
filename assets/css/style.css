@@ -27,7 +27,7 @@ body {
 #sphere {
     fill: var(--fade-color);
     stroke: var(--second-fluo);
-    stroke-width: .40;
+    stroke-width: .25;
     fill: none;
 }
 
@@ -38,7 +38,7 @@ body {
 
 .graticule {
     fill: none;
-    stroke-width: .40;
+    stroke-width: .25;
     stroke-dasharray: 1, 1;
     stroke: var(--legend);
 }
@@ -46,12 +46,12 @@ body {
 .mappa {
     stroke: var(--second-fluo);
     fill: var(--fade-color);
-    stroke-width: .40;
+    stroke-width: .25;
 }
 
 .navarea {
     stroke: var(--second-fluo);
-    stroke-width: .40;
+    stroke-width: .25;
     stroke-dasharray: 2, 2;
     fill: none;
 }
@@ -59,7 +59,7 @@ body {
 .navareaLegend {
     /* stroke: none;
     fill: var(--second-fluo); */
-    stroke-width: .40;
+    stroke-width: .25;
     stroke-dasharray: 2, 2;
     stroke: var(--second-fluo);
     fill: none !important;
@@ -72,7 +72,7 @@ body {
 }
 
 .marineBorders {
-    stroke-width: .40;
+    stroke-width: .25;
     stroke: var(--second-fluo);
     fill: var(--second-fluo);
 }
@@ -95,7 +95,7 @@ body {
 .spoua {
     fill: none;
     stroke: var(--highlite-color);
-    stroke-width: .40;
+    stroke-width: .25;
     font-size: 5px;
 }
 
@@ -228,14 +228,14 @@ body {
 
 .reenteringPaths {
     fill: none;
-    stroke-width: .40;
+    stroke-width: .25;
     stroke: var(--first-fluo);
     opacity: .5;
 }
 
 .disappearPaths {
     stroke: var(--first-fluo);
-    stroke-width: .40;
+    stroke-width: .25;
     opacity: .1;
     -webkit-transition: opacity 2s;
     transition: opacity 2s;

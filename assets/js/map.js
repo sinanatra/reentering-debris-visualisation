@@ -41,7 +41,7 @@ async function loadMap() {
         .orientation("vertical", "horizontal")
         .size(patternSize)
         // .shapeRendering("crispEdges")
-        .strokeWidth(.40)
+        .strokeWidth(.30)
         .stroke("var(--pattern)")
 
     var spouaTexture = textures.circles()
@@ -55,7 +55,7 @@ async function loadMap() {
         .size(patternSize)
         .orientation("vertical", "horizontal")
         // .shapeRendering("crispEdges")
-        .strokeWidth(.40)
+        .strokeWidth(.30)
         .stroke("var(--first-fluo)")
         .size(patternSize)
 
@@ -379,7 +379,7 @@ async function mapPaths(element) {
         .size(patternSize)
         .orientation("vertical", "horizontal")
         // .shapeRendering("crispEdges")
-        .strokeWidth(.40)
+        .strokeWidth(.30)
         .stroke("var(--first-fluo)")
         .size(patternSize)
 
