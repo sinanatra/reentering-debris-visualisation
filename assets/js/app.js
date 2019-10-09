@@ -102,38 +102,6 @@ $(document).ready(async function() {
 
     parseData(previousElement);
 
-
-    // TEST
-
-    // for (i in reenteringPaths) {
-    //     mapPaths(reenteringPaths[i]);
-    // }
-
-    // TEST
-    // for (i in cleanedData) {
-    //     mapMarkers(cleanedData[i], scale);
-    // }
-    // d3.selectAll(".markerSatellite ")
-    //     .attr("class", "disappearSatellite")
-
-    // d3.selectAll(".markerDebris ")
-    //     .attr("class", "disappearDebris")
-
-    // d3.selectAll(".textSatellite")
-    //     .attr("class", "disappearTextSatellite")
-
-    // d3.selectAll(".textDebris")
-    //     .attr("class", "disappearTextDebris")
-
-    // d3.selectAll(".lineDebris")
-    //     .attr("class", "disappearLineDebris")
-
-    // d3.selectAll(".lineSatellite")
-    //     .attr("class", "disappearLineSatellite")
-
-    // d3.selectAll(".reenteringPaths")
-    //     .attr("class", "disappearPaths")
-
 });
 
 function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
