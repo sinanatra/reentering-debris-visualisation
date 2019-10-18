@@ -41,13 +41,13 @@ async function loadMap() {
         .orientation("vertical", "horizontal")
         .size(patternSize)
         // .shapeRendering("crispEdges")
-        .strokeWidth(.30)
+        .strokeWidth(.45)
         .stroke("var(--pattern)")
 
     var spouaTexture = textures.circles()
         .lighter()
         .size(3)
-        .radius(.25)
+        .radius(.45)
         .stroke("var(--highlite-color)")
         .fill("var(--highlite-color)")
 
@@ -55,7 +55,7 @@ async function loadMap() {
         .size(patternSize)
         .orientation("vertical", "horizontal")
         // .shapeRendering("crispEdges")
-        .strokeWidth(.30)
+        .strokeWidth(.45)
         .stroke("var(--first-fluo)")
         .size(patternSize)
 
@@ -261,7 +261,7 @@ async function loadMap() {
             .geometries)
         .enter()
         .append("text")
-        .attr("dy", -5)
+        .attr("dy", -10)
         .attr("class", "navareaText")
         .attr("text-anchor", "middle")
         .attr("dx", 0)
@@ -275,13 +275,13 @@ async function loadMap() {
             .geometries)
         .enter()
         .append("text")
-        .attr("dy", -50)
+        .attr("dy", -60)
         .attr("class", "navareaText")
         .attr("text-anchor", "middle")
         .attr("transform", d => { if (!isNaN(path.centroid(d)[0])) { return "translate(" + path.centroid(d) + ")" } })
         .text(d => { if (!isNaN(path.centroid(d)[0])) { return d.properties.Area } })
 
-    .call(wrap, 40);
+    .call(wrap, 70);
 
 }
 
@@ -379,7 +379,7 @@ async function mapPaths(element) {
         .size(patternSize)
         .orientation("vertical", "horizontal")
         // .shapeRendering("crispEdges")
-        .strokeWidth(.30)
+        .strokeWidth(.45)
         .stroke("var(--first-fluo)")
         .size(patternSize)
 

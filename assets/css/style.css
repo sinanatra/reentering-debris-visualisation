@@ -67,7 +67,7 @@ body {
 
 .navareaText {
     fill: var(--second-fluo);
-    font-size: 4px;
+    font-size: 8px;
     text-shadow: red 0px 0px 50px red;
 }
 
@@ -83,7 +83,7 @@ body {
 
 .nemoMarker {
     fill: var(--highlite-color);
-    font-size: 4px;
+    font-size: 8px;
     text-shadow: var(--fade-color) 0px 0px 5px var(--fade-color);
 }
 
