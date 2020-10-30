@@ -121,6 +121,7 @@ body {
     font-size: 1rem;
     display: block;
     width: 380px;
+    position:absolute;
 }
 
 #legend div {
